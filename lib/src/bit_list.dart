@@ -25,7 +25,11 @@ class BitList extends Object with ListMixin<bool> {
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError.range(index, 0, _length - 1);
+      if (length == 0) {
+        throw new RangeError(index);
+      } else {
+        throw new RangeError.range(index, 0, _length - 1);
+      }
     }
 
     var slot = index ~/ 30;
@@ -40,7 +44,11 @@ class BitList extends Object with ListMixin<bool> {
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError.range(index, 0, _length - 1);
+      if (length == 0) {
+        throw new RangeError(index);
+      } else {
+        throw new RangeError.range(index, 0, _length - 1);
+      }
     }
 
     if (value == null) {

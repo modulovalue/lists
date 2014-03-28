@@ -6,7 +6,7 @@ class FilledList<E> extends Object with ListMixin<E> {
   int _length;
 
   FilledList(int length, E fill) {
-    if (length == null) {
+    if (length == null || length < 0) {
       throw new ArgumentError("length: $length");
     }
 
@@ -20,7 +20,11 @@ class FilledList<E> extends Object with ListMixin<E> {
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError.range(index, 0, _length - 1);
+      if (length == 0) {
+        throw new RangeError(index);
+      } else {
+        throw new RangeError.range(index, 0, _length - 1);
+      }
     }
 
     return _fill;

@@ -41,7 +41,11 @@ class RangeList extends Object with ListMixin<int> {
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError.range(index, 0, _length - 1);
+      if (length == 0) {
+        throw new RangeError(index);
+      } else {
+        throw new RangeError.range(index, 0, _length - 1);
+      }
     }
 
     return start + index;

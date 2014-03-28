@@ -64,7 +64,11 @@ class StepList extends Object with ListMixin<int> {
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError.range(index, 0, _length - 1);
+      if (length == 0) {
+        throw new RangeError(index);
+      } else {
+        throw new RangeError.range(index, 0, _length - 1);
+      }
     }
 
     return start + step * index;
@@ -88,8 +92,8 @@ class StepList extends Object with ListMixin<int> {
 
     var position = value - start;
     var index = position ~/ step;
-    if(index >= 0 && index < _length) {
-      if(position % index == 0) {
+    if (index >= 0 && index < _length) {
+      if (position % index == 0) {
         return true;
       }
     }
@@ -101,7 +105,7 @@ class StepList extends Object with ListMixin<int> {
    * Returns the string representation of range.
    */
   String toString() {
-    if(step > 0) {
+    if (step > 0) {
       return "[$start..$end; +$step]";
     } else {
       return "[$start..$end; $step]";
