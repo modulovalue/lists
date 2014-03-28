@@ -1,9 +1,3 @@
-lists
-=====
-
-Collection of the lists (BitList, FilledList, FixedList, RangeList, StepList).
-
-```dart
 import "package:lists/lists.dart";
 
 void main() {
@@ -95,4 +89,3 @@ void stepList() {
   // The values from -10000000000000 to 10000000000000 with step 1
   list = new StepList(-10000000000000, 10000000000000);
 }
-```
