@@ -22,8 +22,12 @@ void bitList() {
   list.set(32767);
   print(list.get(32767));
 
+  // The list with 65536 elements set to true
   list = new BitList(65536, true);
   print(list.get(32767));
+
+  // The list with 1073741824 elements
+  list = new BitList(1073741824);
 }
 
 void filledList() {
@@ -32,7 +36,7 @@ void filledList() {
   print("${list.join()}");
 
   // The list with 10000000000000 values of "hello"
-  new FilledList<String>(10000000000000, "hello");
+  list = new FilledList<String>(10000000000000, "hello");
 }
 
 void fixedList() {
