@@ -8,7 +8,7 @@ void main() {
 
 void testContent() {
   var result = list([0, 1, 2, 3, 4, 5]);
-  expect(result, [0, 1, 2, 3, 4, 5], reason: "FixedList");
+  expect(result, [0, 1, 2, 3, 4, 5], reason: "WrappedList");
 }
 
 void testModify() {
@@ -20,7 +20,7 @@ void testModify() {
     result = true;
   }
 
-  expect(result, true, reason: "FixedList");
+  expect(result, true, reason: "WrappedList");
 
   result = false;
   try {
@@ -30,7 +30,7 @@ void testModify() {
     result = true;
   }
 
-  expect(result, true, reason: "FixedList");
+  expect(result, true, reason: "WrappedList");
 }
 
-FixedList list(List source) => new FixedList(source);
+WrappedList list(List source) => new WrappedList(source);

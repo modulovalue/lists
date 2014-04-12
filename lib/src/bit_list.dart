@@ -1,9 +1,9 @@
 part of lists;
 
 class BitList extends Object with ListMixin<bool> {
-  List<int> _list;
-
   int _length;
+
+  List<int> _list;
 
   BitList(int length, [bool fill]) {
     if (length == null || length < 0) {
@@ -25,7 +25,7 @@ class BitList extends Object with ListMixin<bool> {
     }
 
     if (index < 0 || index >= _length) {
-      if (length == 0) {
+      if (_length == 0) {
         throw new RangeError(index);
       } else {
         throw new RangeError.range(index, 0, _length - 1);

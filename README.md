@@ -1,7 +1,7 @@
 lists
 =====
 
-Collection of the lists (BitList, FilledList, FixedList, RangeList, StepList).
+Collection of the lists (BitList, FilledList, RangeList, SparseList, StepList, WrappedList).
 
 ```dart
 import "package:lists/lists.dart";
@@ -9,9 +9,9 @@ import "package:lists/lists.dart";
 void main() {
   bitList();
   filledList();
-  fixedList();
   rangeList();
   stepList();
+  wrappedList();
 }
 
 void bitList() {
@@ -39,20 +39,20 @@ void filledList() {
   list = new FilledList<String>(10000000000000, "hello");
 }
 
-void fixedList() {
+void wrappedList() {
   // The read only wrapper for list
   var source = [0, 1, 2, 3];
-  var list = new FixedList<int>(source);
+  var list = new WrappedList<int>(source);
   try {
     list[0] = 0;
   } catch (e, s) {
-    print("$e\n$s");
+    print("$e");
   }
 
   try {
     list.length = 0;
   } catch (e, s) {
-    print("$e\n$s");
+    print("$e");
   }
 }
 

@@ -1,9 +1,9 @@
 part of lists;
 
-class FixedList<E> extends Object with ListMixin<E> {
+class WrappedList<E> extends Object with ListMixin<E> {
   List<E> _source;
 
-  FixedList(List<E> source) {
+  WrappedList(List<E> source) {
     if (source == null) {
       throw new ArgumentError("source: $source");
     }
