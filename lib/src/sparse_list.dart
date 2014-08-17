@@ -3,6 +3,8 @@ part of lists;
 /**
  * Sparse list based on the grouped range lists.
  */
+// TODO: sublist
+// TODO: toList
 class SparseList<E> extends Object with ListMixin<E> {
   final E defaultValue;
 
@@ -126,10 +128,10 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new ArgumentError("range: $range");
     }
 
-    var left = _findNearestIndex(range.start);
+    var length = _groups.length;
+    var left = _findNearestIndex(0, length, range.start);
     var firstIndex = -1;
     var lastIndex = -1;
-    var length = _groups.length;
     for (var i = left; i < length; i++) {
       if (_groups[i].intersect(range)) {
         if (firstIndex == -1) {
@@ -177,7 +179,7 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
-   * Removes the values in the specified [range].
+   * Resets the values in the specified [range] to the default values.
    */
   void resetValues(RangeList range) {
     if (range == null) {
@@ -214,14 +216,11 @@ class SparseList<E> extends Object with ListMixin<E> {
     _setGroup(group);
   }
 
-  int _findNearestIndex(int start) {
-    var right = _groups.length;
+  int _findNearestIndex(int left, int right, int key) {
     if (right == 0) {
       return 0;
     }
 
-    var left = 0;
-    var key = start;
     int middle;
     while (left < right) {
       middle = (left + right) >> 1;
@@ -278,10 +277,10 @@ class SparseList<E> extends Object with ListMixin<E> {
   void _resetValues(RangeList range) {
     var rangeEnd = range.end;
     var rangeStart = range.start;
-    var left = _findNearestIndex(range.start);
+    var length = _groups.length;
+    var left = _findNearestIndex(0, length, range.start);
     var affected = <int>[];
     var insertAt = -1;
-    var length = _groups.length;
     for (var i = left; i < length; i++) {
       var current = _groups[i];
       if (range.intersect(current)) {
@@ -326,10 +325,16 @@ class SparseList<E> extends Object with ListMixin<E> {
 
     var groupEnd = group.end;
     var groupStart = group.start;
-    var left = _findNearestIndex(group.start);
+    int left;
+    var length = _groups.length;
+    if (length != 0 && _groups.last.end < groupStart) {
+      left = length - 1;
+    } else {
+      left = _findNearestIndex(0, length, group.start);
+    }
+
     var affected = <int>[];
     var insertAt = -1;
-    var length = _groups.length;
     for (var i = left; i < length; i++) {
       var current = _groups[i];
       var currentEnd = current.end;

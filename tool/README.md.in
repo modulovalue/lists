@@ -1,0 +1,10 @@
+lists
+=====
+
+Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseList, StepList, WrappedList).
+
+Version: {{VERSION}}
+
+```dart
+{{example/example.dart}}
+```

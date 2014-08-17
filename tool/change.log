@@ -4,3 +4,4 @@
 0.0.4 Added method `subtract(RangeList other) => List<RangeList>` to `RangeList`
 0.0.4 Added class `SparseList<E>`
 0.0.4 Added class `GroupedRangeList<E>`
+0.0.5 Improved (up to 15%) the performance of the `SparseList.addGroup()` when the group added to the end
