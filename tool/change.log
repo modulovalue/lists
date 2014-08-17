@@ -1,0 +1,6 @@
+0.0.4 Added operator `+(RangeList other) => RangeList` to `RangeList`
+0.0.4 Added method `includes(RangeList other) => bool` to `RangeList`
+0.0.4 Added method `intersection(RangeList other) => RangeList` to `RangeList`
+0.0.4 Added method `subtract(RangeList other) => List<RangeList>` to `RangeList`
+0.0.4 Added class `SparseList<E>`
+0.0.4 Added class `GroupedRangeList<E>`

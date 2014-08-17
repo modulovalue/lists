@@ -20,11 +20,7 @@ class FilledList<E> extends Object with ListMixin<E> {
     }
 
     if (index < 0 || index >= _length) {
-      if (_length == 0) {
-        throw new RangeError(index);
-      } else {
-        throw new RangeError.range(index, 0, _length - 1);
-      }
+      throw new RangeError(index);
     }
 
     return _fill;

@@ -1,5 +1,8 @@
 part of lists;
 
+/**
+ * Range list.
+ */
 class RangeList extends Object with ListMixin<int> {
   final int end;
 
@@ -35,17 +38,47 @@ class RangeList extends Object with ListMixin<int> {
     throw new UnsupportedError("length=");
   }
 
+  bool operator ==(other) {
+    if (identical(this, other)) {
+      return true;
+    }
+
+    if (other is RangeList) {
+      return start == other.start && end == other.end;
+    }
+
+    return false;
+  }
+
+  RangeList operator +(RangeList other) {
+    if (other == null) {
+      throw new ArgumentError("other: $other");
+    }
+
+    int start;
+    int end;
+    if (this.start < other.start) {
+      start = this.start;
+    } else {
+      start = other.start;
+    }
+
+    if (this.end > other.end) {
+      end = this.end;
+    } else {
+      end = other.end;
+    }
+
+    return new RangeList(start, end);
+  }
+
   int operator [](int index) {
     if (index == null) {
       throw new ArgumentError("index: $index");
     }
 
     if (index < 0 || index >= _length) {
-      if (_length == 0) {
-        throw new RangeError(index);
-      } else {
-        throw new RangeError.range(index, 0, _length - 1);
-      }
+      throw new RangeError(index);
     }
 
     return start + index;
@@ -56,7 +89,7 @@ class RangeList extends Object with ListMixin<int> {
   }
 
   /**
-   * Returns true if list contains the [value]; otherwise false.
+   * Returns true if range list contains the [value]; otherwise false.
    */
   bool contains(int value) {
     if (value == null || value > end || value < start) {
@@ -66,13 +99,92 @@ class RangeList extends Object with ListMixin<int> {
     return true;
   }
 
-  /*
-   * Returns the list of elements with specified step.
+  /**
+   * Returns true if this range list includes [other]; otherwise false.
    */
-  StepList step(int step) => new StepList(start, end, step);
+  bool includes(RangeList other) {
+    if (other == null) {
+      throw new ArgumentError("other: $other");
+    }
+
+    return (other.start >= start && other.start <= end) && (other.end >= start
+        && other.end <= end);
+  }
 
   /**
-   * Returns the string representation of range.
+   * Returns true if this range list intersect [other]; otherwise false.
+   */
+  bool intersect(RangeList other) {
+    if (other == null) {
+      throw new ArgumentError("other: $other");
+    }
+
+    return (start <= other.start && end >= other.start) || (other.start <= start
+        && other.end >= start);
+  }
+
+  /**
+   * Returns the intersection of this range list and the [other] range list;
+   * otherwise null.
+   */
+  RangeList intersection(RangeList other) {
+    if (other == null) {
+      throw new ArgumentError("other: $other");
+    }
+
+    if (!intersect(other)) {
+      return null;
+    }
+
+    if (this == other) {
+      return new RangeList(this.start, this.end);
+    }
+
+    var start = this.start;
+    if (other.start > start) {
+      start = other.start;
+    }
+
+    var end = this.end;
+    if (other.end < end) {
+      end = other.end;
+    }
+
+    return new RangeList(start, end);
+  }
+
+  /**
+   * Subtracts from this range the [other] range and returns the the resulting
+   * ranges.
+   */
+  List<RangeList> subtract(RangeList other) {
+    if (other == null) {
+      throw new ArgumentError("other: $other");
+    }
+
+    var result = <RangeList>[];
+    if (!intersect(other)) {
+      return result;
+    }
+
+    if (start < other.start) {
+      result.add(new RangeList(start, other.start - 1));
+    }
+
+    if (other.end < end) {
+      result.add(new RangeList(other.end + 1, end));
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns the list of elements with specified step.
+   */
+  StepList toStepList(int step) => new StepList(start, end, step);
+
+  /**
+   * Returns the string representation of range list.
    */
   String toString() {
     return "[$start..$end]";

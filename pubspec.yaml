@@ -1,7 +1,7 @@
 name: lists
-version: 0.0.3
+version: 0.0.4
 author: Andrew Mezoni <andrew.mezoni@gmail.com>
-description: Collection of the lists (BitList, FilledList, RangeList, StepList, WrappedList).
+description: Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseList, StepList, WrappedList).
 homepage: https://github.com/mezoni/lists
 dev_dependencies:
   unittest: any
