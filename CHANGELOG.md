@@ -1,7 +1,12 @@
+## 0.0.7
+
+- Added field `int end` to `SparseList<E>` 
+- Added field `int start` to `SparseList<E>`
+
 ## 0.0.6
 
 - Added class `SparseBoolList`
-- Modified method in `SparseList<E>` from `getGroups(RangeList range)` to `getGroups([RangeList range])` 
+- Modified method in `SparseList<E>` from `getGroups(RangeList range)` to `getGroups([RangeList range])`
 
 ## 0.0.5
 

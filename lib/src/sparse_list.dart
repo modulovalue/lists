@@ -29,6 +29,18 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Returns the 'end' value from the last group (if available); otherwise null.
+   */
+  int get end {
+    var length = _groups.length;
+    if (_groups.length == 0) {
+      return null;
+    }
+
+    return _groups[length - 1].end;
+  }
+
+  /**
    * Returns the number of groups.
    */
   int get groupCount => _groups.length;
@@ -71,6 +83,18 @@ class SparseList<E> extends Object with ListMixin<E> {
 
     _resetValues(new RangeList(length, _length - 1));
     _length = length;
+  }
+
+  /**
+   * Returns the 'start' value from the first group (if available); otherwise
+   * null.
+   */
+  int get start {
+    if (_groups.length == 0) {
+      return null;
+    }
+
+    return _groups[0].start;
   }
 
   E operator [](int index) {

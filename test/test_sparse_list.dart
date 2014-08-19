@@ -12,7 +12,8 @@ void main() {
   testSetTheSame();
   testSetWithStep();
   testsetGroupDifferent();
-  testsetGroupTheSame();
+  testSetGroupTheSame();
+  testStartAndEnd();
 }
 
 void testAdd() {
@@ -564,7 +565,7 @@ void testsetGroupDifferent() {
   expect(groupCount, 3, reason: subject);
 }
 
-void testsetGroupTheSame() {
+void testSetGroupTheSame() {
   var subject = "SparseList.setGroup()";
   /*
    * -
@@ -635,6 +636,21 @@ void testsetGroupTheSame() {
   expect(actual, [null, "1", "1", "1"], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
+}
+
+void testStartAndEnd() {
+  var sparse = new SparseList<int>();
+  var actual = sparse.start;
+  expect(actual, null, reason: "Sparse.start");
+  actual = sparse.end;
+  expect(actual, null, reason: "Sparse.end");
+  //
+  sparse = new SparseList<int>();
+  sparse.addGroup(grp(1, 3, 1));
+  actual = sparse.start;
+  expect(actual, 1, reason: "Sparse.start");
+  actual = sparse.end;
+  expect(actual, 3, reason: "Sparse.end");
 }
 
 List<int> flatten1(SparseList list) {
