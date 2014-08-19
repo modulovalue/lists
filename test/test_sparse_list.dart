@@ -163,6 +163,25 @@ void testRemoveValues() {
   expect(actual, [1, null, 1], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 2, reason: subject);
+  //
+  sparse = new SparseList<int>();
+  sparse.length = 5;
+  sparse.setGroup(grp(2, 4, 1));
+  sparse.removeValues(rng(0, 5));
+  actual = sparse;
+  expect(actual, [], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 0, reason: subject);
+  //
+  sparse = new SparseList<int>();
+  sparse.length = 5;
+  sparse.setGroup(grp(0, 1, 1));
+  sparse.setGroup(grp(3, 4, 1));
+  sparse.removeValues(rng(0, 5));
+  actual = sparse;
+  expect(actual, [], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 0, reason: subject);
 }
 
 void testResetValues() {

@@ -194,16 +194,16 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new ArgumentError("range: $range");
     }
 
-    if (range.start < 0 || range.start >= _length) {
+    if (range.start < 0) {
       throw new RangeError(range.start);
     }
 
-    if (range.end >= _length) {
-      throw new RangeError(range.end);
+    if (_length > 0 && range.end >= _length) {
+      range = new RangeList(range.start, _length - 1);
     }
 
     _resetValues(range);
-    if (_groups.isEmpty) {
+    if (_groups.length == 0) {
       _length = range.start;
     } else {
       var length = _groups.last.end + 1;
@@ -344,12 +344,15 @@ class SparseList<E> extends Object with ListMixin<E> {
     if (affected.length != 0) {
       var firstIndex = affected.first;
       var lastIndex = affected.last;
-      var count = lastIndex - firstIndex + 1;
       var first = _groups[firstIndex];
       var last = _groups[lastIndex];
-      var start = math.min(first.start, rangeStart);
-      var end = math.max(last.end, rangeEnd);
-      _groups.removeRange(firstIndex, lastIndex + 1);
+      var start = first.start < rangeStart ? first.start : rangeStart;
+      var end = last.end > rangeEnd ? last.end : rangeEnd;
+      if (firstIndex == lastIndex) {
+        _groups.removeAt(firstIndex);
+      } else {
+        _groups.removeRange(firstIndex, lastIndex + 1);
+      }
     }
   }
 
@@ -385,22 +388,18 @@ class SparseList<E> extends Object with ListMixin<E> {
         } else {
           var parts = current.subtract(group);
           if (parts.length == 2) {
-            _groups.insertAll(i, const [null, null]);
-            _groups[i] = parts[0];
-            _groups[i + 1] = group;
+            _groups.insertAll(i, [parts[0], group]);
             _groups[i + 2] = parts[1];
             return;
           } else {
             if (groupStart <= currentStart) {
-              _groups.insert(i, null);
-              _groups[i] = new GroupedRangeList(currentStart, groupEnd, groupKey
-                  );
+              _groups.insert(i, new GroupedRangeList(currentStart, groupEnd,
+                  groupKey));
               _groups[i + 1] = parts.first;
               affected.add(i);
               break;
             } else {
-              _groups.insert(i, null);
-              _groups[i] = parts.first;
+              _groups.insert(i, parts.first);
               _groups[i + 1] = new GroupedRangeList(groupStart, currentEnd,
                   groupKey);
               length++;
@@ -432,14 +431,17 @@ class SparseList<E> extends Object with ListMixin<E> {
     if (affected.length != 0) {
       var firstIndex = affected.first;
       var lastIndex = affected.last;
-      var count = lastIndex - firstIndex + 1;
       var first = _groups[firstIndex];
       var last = _groups[lastIndex];
-      var start = math.min(first.start, groupStart);
-      var end = math.max(last.end, groupEnd);
+      var start = first.start < groupStart ? first.start : groupStart;
+      var end = last.end > groupEnd ? last.end : groupEnd;
       var newGroup = new GroupedRangeList(start, end, groupKey);
-      _groups.removeRange(firstIndex, lastIndex + 1);
-      _groups.insert(firstIndex, newGroup);
+      if (firstIndex == lastIndex) {
+        _groups[firstIndex] = newGroup;
+      } else {
+        _groups.removeRange(firstIndex, lastIndex + 1);
+        _groups.insert(firstIndex, newGroup);
+      }
     }
   }
 }

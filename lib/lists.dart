@@ -1,7 +1,6 @@
 library lists;
 
 import "dart:collection";
-import "dart:math" as math;
 
 part "src/bit_list.dart";
 part "src/filled_list.dart";

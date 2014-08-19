@@ -1,3 +1,8 @@
+## 0.0.10
+
+- Improved performance of modifications `SparseList<E>`.
+- Removed limitations on the bounds of the range in `SparseList.removeValues()`.
+
 ## 0.0.9
 
 - Added method `getIndexes() => Iterable<int> ` to `SparseList<E>`
