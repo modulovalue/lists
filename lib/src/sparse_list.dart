@@ -203,7 +203,7 @@ class SparseList<E> extends Object with ListMixin<E> {
       _length = range.start;
     } else {
       var length = _groups.last.end + 1;
-      if (length < range.start) {
+      if (length > range.start && length < range.end) {
         length = range.start;
       }
 

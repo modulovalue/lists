@@ -1,6 +1,10 @@
+## 0.0.12
+
+- Fixed bug (decrease length) in `SparseList.removeValues()`.
+
 ## 0.0.11
 
-- Fixed bug `SparseList.removeValues()`.
+- Fixed bug in `SparseList.removeValues()`.
 
 ## 0.0.10
 
