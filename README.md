@@ -3,7 +3,7 @@ lists
 
 Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 
-Version: 0.0.8
+Version: 0.0.9
 
 ```dart
 import "package:lists/lists.dart";

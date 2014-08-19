@@ -179,6 +179,13 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Returns the indexes of the elements with a value.
+   */
+  Iterable<int> getIndexes() {
+    return new _SparseListIndexesIterator(this);
+  }
+
+  /**
    * Removes the values in the specified range and decreases (if possible) the
    * length down to (range.start).
    */
@@ -433,6 +440,69 @@ class SparseList<E> extends Object with ListMixin<E> {
       var newGroup = new GroupedRangeList(start, end, groupKey);
       _groups.removeRange(firstIndex, lastIndex + 1);
       _groups.insert(firstIndex, newGroup);
+    }
+  }
+}
+
+class _SparseListIndexesIterator extends Object with IterableMixin<int>
+    implements Iterator<int> {
+  int _count;
+
+  int _current;
+
+  int _end;
+
+  List<GroupedRangeList> _groups;
+
+  int _index;
+
+  int _start;
+
+  int _state = 0;
+
+  _SparseListIndexesIterator(SparseList list) {
+    _groups = list.groups;
+  }
+
+  int get current => _current;
+
+  Iterator<int> get iterator => this;
+
+  bool moveNext() {
+    while (true) {
+      switch (_state) {
+        case 0:
+          _count = _groups.length;
+          if (_count != 0) {
+            var group = _groups[0];
+            _index = 0;
+            _end = group.end;
+            _start = group.start;
+            _state = 1;
+            break;
+          } else {
+            _state = 2;
+          }
+
+          break;
+        case 1:
+          if (_start <= _end) {
+            _current = _start++;
+            return true;
+          }
+
+          if (++_index == _count) {
+            _state = 2;
+            return false;
+          }
+
+          var group = _groups[_index];
+          _end = group.end;
+          _start = group.start;
+          break;
+        case 2:
+          return false;
+      }
     }
   }
 }

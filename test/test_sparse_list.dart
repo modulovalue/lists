@@ -5,6 +5,7 @@ void main() {
   testAdd();
   testClear();
   testGetGroups();
+  testGetIndexes();
   testLength();
   testRemoveValues();
   testResetValues();
@@ -89,6 +90,21 @@ void testGetGroups() {
   groups = sparse.getGroups().toList();
   actual = groups;
   expect(actual, [[0, 1, 2]], reason: subject);
+}
+
+void testGetIndexes() {
+  var subject = "SparseList.getIndexes()";
+  //
+  var sparse = new SparseList<int>();
+  sparse.addGroup(grp(2, 4, 1));
+  var actual = sparse.getIndexes();
+  expect(actual, [2, 3, 4], reason: subject);
+  //
+  sparse = new SparseList<int>();
+  sparse.addGroup(grp(2, 4, 1));
+  sparse.addGroup(grp(6, 8, 1));
+  actual = sparse.getIndexes();
+  expect(actual, [2, 3, 4, 6, 7, 8], reason: subject);
 }
 
 void testLength() {

@@ -1,3 +1,7 @@
+## 0.0.9
+
+- Added method `getIndexes() => Iterable<int> ` to `SparseList<E>`
+
 ## 0.0.8
 
 - Added field `groups => List<GroupedRangeList<E>>` to `SparseList<E>`
