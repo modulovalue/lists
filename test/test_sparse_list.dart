@@ -82,6 +82,12 @@ void testGetGroups() {
   groups = sparse.getGroups(rng(1, 1)).toList();
   actual = groups;
   expect(actual, [[0, 1, 2]], reason: subject);
+  // Get all groups
+  sparse = new SparseList<int>();
+  sparse.addGroup(grp(0, 2, 1));
+  groups = sparse.getGroups().toList();
+  actual = groups;
+  expect(actual, [[0, 1, 2]], reason: subject);
 }
 
 void testLength() {

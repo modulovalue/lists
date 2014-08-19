@@ -123,9 +123,9 @@ class SparseList<E> extends Object with ListMixin<E> {
   /**
    * Returns all groups that intersects with the specified [range].
    */
-  Iterable<GroupedRangeList<E>> getGroups(RangeList range) {
+  Iterable<GroupedRangeList<E>> getGroups([RangeList range]) {
     if (range == null) {
-      throw new ArgumentError("range: $range");
+      return _groups.getRange(0, _groups.length);
     }
 
     var length = _groups.length;

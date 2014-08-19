@@ -37,6 +37,7 @@ void main(List<String> args) {
       template = template.replaceFirst("{{$filename}}", text);
     }
 
+    template = template.replaceFirst("{{DESCRIPTION}}", getDescription());
     template = template.replaceFirst("{{VERSION}}", getVersion());
     new File(t.name).writeAsStringSync(template);
   });
@@ -99,6 +100,22 @@ void main(List<String> args) {
   }, description: "display version", reusable: true);
 
   new BuildShell().run(args).then((exitCode) => exit(exitCode));
+}
+
+String getDescription() {
+  var file = new File(PUBSPEC_YAML);
+  var lines = file.readAsLinesSync();
+  var description = "";
+  for (var line in lines) {
+    if (line.startsWith("description")) {
+      var index = line.indexOf(":");
+      if (index != -1 && line.length > index + 1) {
+        description = line.substring(index + 1).trim();
+      }
+    }
+  }
+
+  return description;
 }
 
 String getVersion() {

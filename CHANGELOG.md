@@ -1,3 +1,8 @@
+## 0.0.6
+
+- Added class `SparseBoolList`
+- Modified method in `SparseList<E>` from `getGroups(RangeList range)` to `getGroups([RangeList range])` 
+
 ## 0.0.5
 
 - Improved (up to 15%) the performance of the `SparseList.addGroup()` when the group added to the end

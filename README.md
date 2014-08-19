@@ -1,9 +1,9 @@
 lists
 =====
 
-Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseList, StepList, WrappedList).
+Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 
-Version: 0.0.5
+Version: 0.0.6
 
 ```dart
 import "dart:math" as math;
