@@ -1,10 +1,10 @@
-import "dart:math" as math;
 import "package:lists/lists.dart";
 
 void main() {
   bitList();
   filledList();
   rangeList();
+  sparseBoolList();
   sparseList();
   stepList();
   wrappedList();
@@ -52,24 +52,61 @@ void rangeList() {
   list = new RangeList(10000000000000, 10000000000000);
 }
 
+void sparseBoolList() {
+  // Really big size
+  var length = 2 * 1024 * 1024 * 1024;
+  var list = new SparseBoolList(length: length);
+  var groupCount = 0;
+  var offset = 0;
+  print("SparseBoolList: ${_format(length)} length.");
+  var sw = new Stopwatch();
+  sw.start();
+  while (true) {
+    var size = 128 * 1024;
+    list.addGroup(_grp(offset, offset + size, true));
+    offset += size + 128 * 1024;
+    groupCount++;
+    if (offset >= length) {
+      break;
+    }
+  }
+  //
+  sw.stop();
+  var elapsed = (sw.elapsedMilliseconds / 1000);
+  print("SparseBoolList: ${_format(groupCount)} groups added in $elapsed sec.");
+  //
+  var acessed = 0;
+  var elementCount = length / 10;
+  //
+  sw.reset();
+  sw.start();
+  for (var i = 0; i < length; i += 100) {
+    var x = list[i];
+    acessed++;
+  }
+
+  sw.stop();
+  elapsed = (sw.elapsedMilliseconds / 1000);
+  print("SparseBoolList: ${_format(acessed)} elements accessed in $elapsed sec.");
+}
+
 void sparseList() {
-  // Count is 300000 elements
-  var count = 300000;
+  // Count is 50000 elements
+  var count = 50000;
   var list = new SparseList();
   var offset = 0;
-  var random = new math.Random();
   var sw = new Stopwatch();
   sw.start();
   for (var i = 0; i < count; i++) {
-    offset += random.nextInt(10);
-    var size = random.nextInt(10);
+    offset += 100;
+    var size = 100;
     list.addGroup(_grp(offset, offset + size, i));
     offset += size;
   }
 
   sw.stop();
   var elapsed = (sw.elapsedMilliseconds / 1000);
-  print("SparseList: $count groups added in $elapsed sec.");
+  print("SparseList: ${_format(count)} groups added in $elapsed sec.");
   // Access all elements
   sw.reset();
   sw.start();
@@ -80,7 +117,7 @@ void sparseList() {
 
   sw.stop();
   elapsed = (sw.elapsedMilliseconds / 1000);
-  print("SparseList: $length elements accessed in $elapsed sec.");
+  print("SparseList: ${_format(length)} elements accessed in $elapsed sec.");
 }
 
 void stepList() {
@@ -129,4 +166,20 @@ void wrappedList() {
 
 GroupedRangeList _grp(int start, int end, dynamic key) {
   return new GroupedRangeList(start, end, key);
+}
+
+String _format(int number) {
+  var string = number.toString();
+  var length = string.length;
+  var list = <String>[];
+  var count = 0;
+  for(var i = length - 1; i >= 0; i--) {
+    list.add(string[i]);
+    if(count++ == 2) {
+      list.add(" ");
+      count = 0;
+    }
+  }
+
+  return list.reversed.join();
 }
