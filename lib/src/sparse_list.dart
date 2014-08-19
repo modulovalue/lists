@@ -41,6 +41,12 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Returns a read-only list of the groups.
+   */
+  List<GroupedRangeList<E>> get groups =>
+      new UnmodifiableListView<GroupedRangeList<E>>(_groups);
+
+  /**
    * Returns the number of groups.
    */
   int get groupCount => _groups.length;

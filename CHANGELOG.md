@@ -1,7 +1,11 @@
+## 0.0.8
+
+- Added field `groups => List<GroupedRangeList<E>>` to `SparseList<E>`
+
 ## 0.0.7
 
-- Added field `int end` to `SparseList<E>` 
-- Added field `int start` to `SparseList<E>`
+- Added field `end => int` to `SparseList<E>` 
+- Added field `start => int` to `SparseList<E>`
 
 ## 0.0.6
 
