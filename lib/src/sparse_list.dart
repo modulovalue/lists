@@ -198,10 +198,6 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new RangeError(range.start);
     }
 
-    if (_length > 0 && range.end >= _length) {
-      range = new RangeList(range.start, _length - 1);
-    }
-
     _resetValues(range);
     if (_groups.length == 0) {
       _length = range.start;

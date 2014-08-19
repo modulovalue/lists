@@ -1,3 +1,7 @@
+## 0.0.11
+
+- Fixed bug `SparseList.removeValues()`.
+
 ## 0.0.10
 
 - Improved performance of modifications `SparseList<E>`.
