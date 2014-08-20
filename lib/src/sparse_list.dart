@@ -12,7 +12,7 @@ class SparseList<E> extends Object with ListMixin<E> {
 
   List<GroupedRangeList<E>> _groups = <GroupedRangeList<E>>[];
 
-  int _length = 0;
+  int _length;
 
   SparseList({this.defaultValue, int length}) {
     if (length == null) {
@@ -168,6 +168,10 @@ class SparseList<E> extends Object with ListMixin<E> {
    * (if required) the length up to (range.end + 1).
    */
   void addGroup(GroupedRangeList<E> group) {
+    if (_fixedLength) {
+      throw new UnsupportedError("addGroup()");
+    }
+
     if (group == null) {
       throw new ArgumentError("group: $group");
     }

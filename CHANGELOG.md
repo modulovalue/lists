@@ -1,3 +1,7 @@
+## 0.0.16
+
+- Fixed bug (change length of fixed list) in `SparseList.addGroup()`.
+
 ## 0.0.15
 
 - Fixed bug (change length of fixed list) in `SparseList.removeValues()`.

@@ -20,3 +20,4 @@
 0.0.14 Improved performance of modifications `SparseList<E>`.
 0.0.15 Fixed bug (change length of fixed list) in `SparseList.removeValues()`.
 0.0.15 Fixed bug (change length of fixed list) in `SparseList.trim()`.
+0.0.16 Fixed bug (change length of fixed list) in `SparseList.addGroup()`.
