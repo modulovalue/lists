@@ -15,3 +15,6 @@
 0.0.10 Improved performance of modifications `SparseList<E>`.
 0.0.11 Fixed bug in `SparseList.removeValues()`.
 0.0.12 Fixed bug (decrease length) in `SparseList.removeValues()`.
+0.0.14 Fixed bug (decrease length) in `SparseList.removeValues()`.
+0.0.14 Added method `trim() => void` to `SparseList<E>`
+0.0.14 Improved performance of modifications `SparseList<E>`.

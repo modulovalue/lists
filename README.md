@@ -3,7 +3,7 @@ lists
 
 Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 
-Version: 0.0.12
+Version: 0.0.14
 
 ```dart
 import "package:lists/lists.dart";
@@ -71,7 +71,8 @@ void sparseBoolList() {
   sw.start();
   while (true) {
     var size = 128 * 1024;
-    list.addGroup(_grp(offset, offset + size, true));
+    //list.addGroup(_grp(offset, offset + size, true));
+    list.addGroup(new GroupedRangeList(offset, offset + size, true));
     offset += size + 128 * 1024;
     groupCount++;
     if (offset >= length) {
@@ -95,7 +96,8 @@ void sparseBoolList() {
 
   sw.stop();
   elapsed = (sw.elapsedMilliseconds / 1000);
-  print("SparseBoolList: ${_format(acessed)} elements accessed in $elapsed sec.");
+  print("SparseBoolList: ${_format(acessed)} elements accessed in $elapsed sec."
+      );
 }
 
 void sparseList() {
@@ -108,7 +110,8 @@ void sparseList() {
   for (var i = 0; i < count; i++) {
     offset += 100;
     var size = 100;
-    list.addGroup(_grp(offset, offset + size, i));
+    //list.addGroup(_grp(offset, offset + size, i));
+    list.addGroup(new GroupedRangeList(offset, offset + size, i));
     offset += size;
   }
 
@@ -181,9 +184,9 @@ String _format(int number) {
   var length = string.length;
   var list = <String>[];
   var count = 0;
-  for(var i = length - 1; i >= 0; i--) {
+  for (var i = length - 1; i >= 0; i--) {
     list.add(string[i]);
-    if(count++ == 2) {
+    if (count++ == 2) {
       list.add(" ");
       count = 0;
     }

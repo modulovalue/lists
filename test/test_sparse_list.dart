@@ -15,6 +15,7 @@ void main() {
   testsetGroupDifferent();
   testSetGroupTheSame();
   testStartAndEnd();
+  testTrim();
 }
 
 void testAdd() {
@@ -137,6 +138,8 @@ void testRemoveValues() {
   expect(actual, [], reason: subject);
   var groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 0, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.addGroup(grp(0, 2, 1));
@@ -145,6 +148,8 @@ void testRemoveValues() {
   expect(actual, [], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 0, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.length = 3;
@@ -153,6 +158,8 @@ void testRemoveValues() {
   expect(actual, [null], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 1, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.addGroup(grp(0, 2, 1));
@@ -161,6 +168,8 @@ void testRemoveValues() {
   expect(actual, [1], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
+  actual = sparse.length;
+  expect(actual, 1, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.length = 3;
@@ -169,6 +178,8 @@ void testRemoveValues() {
   expect(actual, [], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 0, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.addGroup(grp(0, 2, 1));
@@ -177,6 +188,8 @@ void testRemoveValues() {
   expect(actual, [null, null, 1], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
+  actual = sparse.length;
+  expect(actual, 3, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.length = 3;
@@ -186,6 +199,8 @@ void testRemoveValues() {
   expect(actual, [1], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
+  actual = sparse.length;
+  expect(actual, 1, reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.length = 3;
@@ -195,6 +210,8 @@ void testRemoveValues() {
   expect(actual, [1, null, 1], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 2, reason: subject);
+  actual = sparse.length;
+  expect(actual, 3, reason: subject);
   // Out of bounds
   sparse = new SparseList<int>();
   sparse.length = 5;
@@ -204,6 +221,8 @@ void testRemoveValues() {
   expect(actual, [], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 0, reason: subject);
   // Out of bounds
   sparse = new SparseList<int>();
   sparse.length = 5;
@@ -214,6 +233,8 @@ void testRemoveValues() {
   expect(actual, [], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 0, reason: subject);
   // Descrease length
   sparse = new SparseList<int>();
   sparse.length = 2;
@@ -221,10 +242,20 @@ void testRemoveValues() {
   sparse.removeValues(rng(4, 6));
   actual = sparse;
   expect(actual, [null, 1], reason: subject);
-  actual = sparse.length;
-  expect(actual, 2, reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
+  actual = sparse.length;
+  expect(actual, 2, reason: subject);
+  // After last
+  sparse = new SparseList<int>();
+  sparse.length = 3;
+  sparse.removeValues(rng(5, 7));
+  actual = sparse;
+  expect(actual, [null, null, null], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 0, reason: subject);
+  actual = sparse.length;
+  expect(actual, 3, reason: subject);
 }
 
 void testResetValues() {
@@ -729,6 +760,42 @@ void testStartAndEnd() {
   expect(actual, 1, reason: "Sparse.start");
   actual = sparse.end;
   expect(actual, 3, reason: "Sparse.end");
+}
+
+void testTrim() {
+  var subject = "SparseList.addGroup()";
+  //
+  var sparse = new SparseList<int>();
+  sparse.length = 3;
+  sparse.trim();
+  var actual = sparse;
+  expect(actual, [], reason: subject);
+  var groupCount = sparse.groupCount;
+  expect(groupCount, 0, reason: subject);
+  var length = sparse.length;
+  expect(length, 0, reason: subject);
+  //
+  sparse = new SparseList<int>();
+  sparse.length = 3;
+  sparse[0] = 1;
+  sparse.trim();
+  actual = sparse;
+  expect(actual, [1], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 1, reason: subject);
+  length = sparse.length;
+  expect(length, 1, reason: subject);
+  //
+  sparse = new SparseList<int>();
+  sparse.length = 3;
+  sparse[2] = 1;
+  sparse.trim();
+  actual = sparse;
+  expect(actual, [null, null, 1], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 1, reason: subject);
+  length = sparse.length;
+  expect(length, 3, reason: subject);
 }
 
 List<int> flatten1(SparseList list) {

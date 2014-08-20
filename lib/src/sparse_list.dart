@@ -112,7 +112,39 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new RangeError(index);
     }
 
-    return _findValue(index);
+    var right = _groups.length;
+    if (right == 0) {
+      return defaultValue;
+    }
+
+    if (right == 1) {
+      var group = _groups[0];
+      if (index <= group.end && index >= group.start) {
+        return group.key;
+      } else {
+        return defaultValue;
+      }
+    }
+
+    var left = 0;
+    var key = index;
+    int middle;
+    var value = defaultValue;
+    while (left < right) {
+      middle = (left + right) >> 1;
+      var group = _groups[middle];
+      if (group.end < key) {
+        left = middle + 1;
+      } else {
+        if (key >= group.start) {
+          return group.key;
+        }
+
+        right = middle;
+      }
+    }
+
+    return value;
   }
 
   void operator []=(int index, E value) {
@@ -200,7 +232,10 @@ class SparseList<E> extends Object with ListMixin<E> {
 
     _resetValues(range);
     if (_groups.length == 0) {
-      _length = range.start;
+      if (_length > range.start) {
+        _length = range.start;
+      }
+
     } else {
       var length = _groups.last.end + 1;
       if (length > range.start && length < range.end) {
@@ -249,6 +284,19 @@ class SparseList<E> extends Object with ListMixin<E> {
     _setGroup(group);
   }
 
+  /**
+   * Sets the length of list equal to the last not empty index + 1; otherwise
+   * sets the length to 0.
+   */
+  void trim() {
+    var groupCount = _groups.length;
+    if (groupCount == 0) {
+      _length = 0;
+    } else {
+      _length = _groups[groupCount - 1].end + 1;
+    }
+  }
+
   int _findNearestIndex(int left, int right, int key) {
     if (right == 0) {
       return 0;
@@ -269,42 +317,6 @@ class SparseList<E> extends Object with ListMixin<E> {
     }
 
     return left;
-  }
-
-  E _findValue(int index) {
-    var right = _groups.length;
-    if (right == 0) {
-      return defaultValue;
-    }
-
-    if (right == 1) {
-      var group = _groups.first;
-      if (index <= group.end && index >= group.start) {
-        return group.key;
-      } else {
-        return defaultValue;
-      }
-    }
-
-    var left = 0;
-    var key = index;
-    int middle;
-    var value = defaultValue;
-    while (left < right) {
-      middle = (left + right) >> 1;
-      var group = _groups[middle];
-      if (group.end < key) {
-        left = middle + 1;
-      } else {
-        if (key >= group.start) {
-          return group.key;
-        }
-
-        right = middle;
-      }
-    }
-
-    return value;
   }
 
   void _resetValues(RangeList range) {
@@ -359,16 +371,25 @@ class SparseList<E> extends Object with ListMixin<E> {
       return;
     }
 
-    var groupEnd = group.end;
-    var groupStart = group.start;
-    int left;
     var length = _groups.length;
-    if (length != 0 && _groups.last.end < groupStart) {
+    if (length == 0) {
+      _groups.add(group);
+      return;
+    }
+
+    var groupStart = group.start;
+    var lastEnd = _groups[length - 1].end;
+    int left;
+    if (groupStart == lastEnd + 1) {
       left = length - 1;
+    } else if (groupStart > lastEnd) {
+      _groups.add(group);
+      return;
     } else {
       left = _findNearestIndex(0, length, group.start);
     }
 
+    var groupEnd = group.end;
     var affected = <int>[];
     var insertAt = -1;
     for (var i = left; i < length; i++) {
