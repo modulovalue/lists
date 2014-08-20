@@ -222,6 +222,10 @@ class SparseList<E> extends Object with ListMixin<E> {
    * length down to (range.start).
    */
   void removeValues(RangeList range) {
+    if (_fixedLength) {
+      throw new UnsupportedError("removeValues()");
+    }
+
     if (range == null) {
       throw new ArgumentError("range: $range");
     }
@@ -289,6 +293,10 @@ class SparseList<E> extends Object with ListMixin<E> {
    * sets the length to 0.
    */
   void trim() {
+    if (_fixedLength) {
+      throw new UnsupportedError("trim()");
+    }
+
     var groupCount = _groups.length;
     if (groupCount == 0) {
       _length = 0;
