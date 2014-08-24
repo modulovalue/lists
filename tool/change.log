@@ -21,3 +21,6 @@
 0.0.15 Fixed bug (change length of fixed list) in `SparseList.removeValues()`.
 0.0.15 Fixed bug (change length of fixed list) in `SparseList.trim()`.
 0.0.16 Fixed bug (change length of fixed list) in `SparseList.addGroup()`.
+0.0.17 `SparseList<E>` now can be frozen
+0.0.17 Added method `freeze() => void>` to `SparseList<E>`
+0.0.17 Added field `frozen => bool>` to `SparseList<E>`

@@ -1,3 +1,9 @@
+## 0.0.17
+
+- Added field `frozen => bool>` to `SparseList<E>`
+- Added method `freeze() => void>` to `SparseList<E>`
+- `SparseList<E>` now can be frozen
+
 ## 0.0.16
 
 - Fixed bug (change length of fixed list) in `SparseList.addGroup()`.

@@ -10,6 +10,8 @@ class SparseList<E> extends Object with ListMixin<E> {
 
   bool _fixedLength = false;
 
+  bool _frozen = false;
+
   List<GroupedRangeList<E>> _groups = <GroupedRangeList<E>>[];
 
   int _length;
@@ -41,6 +43,13 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Returns true if the list is frozen; otherwise false.
+   */
+  bool get frozen {
+    return _frozen;
+  }
+
+  /**
    * Returns a read-only list of the groups.
    */
   List<GroupedRangeList<E>> get groups =>
@@ -64,12 +73,16 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new ArgumentError("length: $length");
     }
 
-    if (length < 0) {
-      throw new RangeError(length);
+    if (_fixedLength) {
+      throw new StateError("Unable to set the length of a fixed list.");
     }
 
-    if (_fixedLength) {
-      throw new UnsupportedError("length=");
+    if (frozen) {
+      _errorModificationNotAllowed();
+    }
+
+    if (length < 0) {
+      throw new RangeError(length);
     }
 
     if (_length == length) {
@@ -152,6 +165,10 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new ArgumentError("index: $index");
     }
 
+    if (frozen) {
+      _errorModificationNotAllowed();
+    }
+
     if (index < 0 || index >= _length) {
       throw new RangeError(index);
     }
@@ -168,12 +185,16 @@ class SparseList<E> extends Object with ListMixin<E> {
    * (if required) the length up to (range.end + 1).
    */
   void addGroup(GroupedRangeList<E> group) {
-    if (_fixedLength) {
-      throw new UnsupportedError("addGroup()");
-    }
-
     if (group == null) {
       throw new ArgumentError("group: $group");
+    }
+
+    if (_fixedLength) {
+      throw new StateError("Unable to add the group into fixed list.");
+    }
+
+    if (frozen) {
+      _errorModificationNotAllowed();
     }
 
     if (group.start < 0) {
@@ -215,6 +236,13 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Makes the list unmodifiable.
+   */
+  void freeze() {
+    _frozen = true;
+  }
+
+  /**
    * Returns the indexes of the elements with a value.
    */
   Iterable<int> getIndexes() {
@@ -226,12 +254,16 @@ class SparseList<E> extends Object with ListMixin<E> {
    * length down to (range.start).
    */
   void removeValues(RangeList range) {
-    if (_fixedLength) {
-      throw new UnsupportedError("removeValues()");
-    }
-
     if (range == null) {
       throw new ArgumentError("range: $range");
+    }
+
+    if (_fixedLength) {
+      throw new StateError("Unable to remove the values from a fixed list.");
+    }
+
+    if (frozen) {
+      _errorModificationNotAllowed();
     }
 
     if (range.start < 0) {
@@ -262,6 +294,10 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new ArgumentError("range: $range");
     }
 
+    if (frozen) {
+      _errorModificationNotAllowed();
+    }
+
     if (range.start < 0 || range.start >= _length) {
       throw new RangeError(range.start);
     }
@@ -281,6 +317,10 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new ArgumentError("group: $group");
     }
 
+    if (frozen) {
+      _errorModificationNotAllowed();
+    }
+
     if (group.start < 0 || group.start >= _length) {
       throw new RangeError(group.start);
     }
@@ -298,7 +338,11 @@ class SparseList<E> extends Object with ListMixin<E> {
    */
   void trim() {
     if (_fixedLength) {
-      throw new UnsupportedError("trim()");
+      throw new StateError("Unable to trim a fixed list.");
+    }
+
+    if (frozen) {
+      _errorModificationNotAllowed();
     }
 
     var groupCount = _groups.length;
@@ -307,6 +351,10 @@ class SparseList<E> extends Object with ListMixin<E> {
     } else {
       _length = _groups[groupCount - 1].end + 1;
     }
+  }
+
+  void _errorModificationNotAllowed() {
+    throw new StateError("Unable to modify the frozen list.");
   }
 
   int _findNearestIndex(int left, int right, int key) {
