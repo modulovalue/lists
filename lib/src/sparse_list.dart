@@ -232,6 +232,10 @@ class SparseList<E> extends Object with ListMixin<E> {
       }
     }
 
+    if (firstIndex == -1) {
+      return <GroupedRangeList<E>>[];
+    }
+
     return _groups.getRange(firstIndex, lastIndex + 1);
   }
 
@@ -470,15 +474,16 @@ class SparseList<E> extends Object with ListMixin<E> {
             return;
           } else {
             if (groupStart <= currentStart) {
-              _groups.insert(i, new GroupedRangeList(currentStart, groupEnd,
-                  groupKey));
+              _groups.insert(
+                  i,
+                  new GroupedRangeList(currentStart, groupEnd, groupKey));
               _groups[i + 1] = parts.first;
               affected.add(i);
               break;
             } else {
               _groups.insert(i, parts.first);
-              _groups[i + 1] = new GroupedRangeList(groupStart, currentEnd,
-                  groupKey);
+              _groups[i +
+                  1] = new GroupedRangeList(groupStart, currentEnd, groupKey);
               length++;
             }
           }

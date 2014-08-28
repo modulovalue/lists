@@ -1,3 +1,7 @@
+## 0.0.18
+
+- Fixed bug in `SparseList.getGroups()`
+
 ## 0.0.17
 
 - Added field `frozen => bool>` to `SparseList<E>`
@@ -6,31 +10,31 @@
 
 ## 0.0.16
 
-- Fixed bug (change length of fixed list) in `SparseList.addGroup()`.
+- Fixed bug (change length of fixed list) in `SparseList.addGroup()`
 
 ## 0.0.15
 
-- Fixed bug (change length of fixed list) in `SparseList.removeValues()`.
-- Fixed bug (change length of fixed list) in `SparseList.trim()`.
+- Fixed bug (change length of fixed list) in `SparseList.removeValues()`
+- Fixed bug (change length of fixed list) in `SparseList.trim()`
 
 ## 0.0.14
 
 - Added method `trim() => void` to `SparseList<E>`
-- Fixed bug (decrease length) in `SparseList.removeValues()`.
-- Improved performance of modifications `SparseList<E>`.
+- Fixed bug (decrease length) in `SparseList.removeValues()`
+- Improved performance of modifications `SparseList<E>`
 
 ## 0.0.12
 
-- Fixed bug (decrease length) in `SparseList.removeValues()`.
+- Fixed bug (decrease length) in `SparseList.removeValues()`
 
 ## 0.0.11
 
-- Fixed bug in `SparseList.removeValues()`.
+- Fixed bug in `SparseList.removeValues()`
 
 ## 0.0.10
 
-- Improved performance of modifications `SparseList<E>`.
-- Removed limitations on the bounds of the range in `SparseList.removeValues()`.
+- Improved performance of modifications `SparseList<E>`
+- Removed limitations on the bounds of the range in `SparseList.removeValues()`
 
 ## 0.0.9
 

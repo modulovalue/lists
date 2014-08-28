@@ -91,6 +91,16 @@ void testGetGroups() {
   groups = sparse.getGroups().toList();
   actual = groups;
   expect(actual, [[0, 1, 2]], reason: subject);
+  // From empty list
+  sparse = new SparseList<int>();
+  groups = sparse.getGroups(rng(0, 0)).toList();
+  actual = groups;
+  expect(actual, [], reason: subject);
+  // From empty list
+  sparse = new SparseList<int>();
+  groups = sparse.getGroups(rng(1, 2)).toList();
+  actual = groups;
+  expect(actual, [], reason: subject);
 }
 
 void testGetIndexes() {
