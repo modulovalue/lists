@@ -1,9 +1,14 @@
 import "package:lists/lists.dart";
 import "package:unittest/unittest.dart";
 
+const int FAILURE = 13;
+
+const int SUCCESS = 41;
+
 void main() {
-  testAdd();
+  testAddGroup();
   testClear();
+  testGetAlignedGroups();
   testGetGroups();
   testGetIndexes();
   testLength();
@@ -18,26 +23,42 @@ void main() {
   testTrim();
 }
 
-void testAdd() {
-  var subject = "SparseList.addGroup()";
-  //
-  var sparse = new SparseList<int>();
-  sparse.addGroup(grp(1, 3, 1));
-  var actual = sparse;
-  expect(actual, [null, 1, 1, 1], reason: subject);
-  var groupCount = sparse.groupCount;
-  expect(groupCount, 1, reason: subject);
-  var length = sparse.length;
-  expect(length, 4, reason: subject);
-  //
-  sparse = new SparseList<int>();
-  sparse.addGroup(grp(1, 3, null));
-  actual = sparse;
-  expect(actual, [null, null, null, null], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 0, reason: subject);
-  length = sparse.length;
-  expect(length, 4, reason: subject);
+void testAddGroup() {
+  var subject = "SparseList.AddGroup()";
+  var depth = 5;
+  void action(List<bool> first, List<bool> second) {
+    var sparse = new SparseList<int>();
+    var ranges = _patternToRanges(first);
+    // Add group
+    for (var range in ranges) {
+      sparse.addGroup(grp(range.start, range.end, SUCCESS));
+    }
+
+    // Test group count
+    var groupCount = sparse.groupCount;
+    expect(groupCount, ranges.length, reason: subject);
+
+    // Test groups
+    for (var i = 0; i < groupCount; i++) {
+      var group = sparse.groups[i];
+      var range = ranges[i];
+      expect(group.start, range.start, reason: subject);
+      expect(group.end, range.end, reason: subject);
+    }
+
+    // Test length
+    var length = patternLength(first);
+    expect(length, sparse.length, reason: subject);
+
+    // Test values
+    for (var i = 0; i < first.length; i++) {
+      if (first[i]) {
+        expect(sparse[i], SUCCESS, reason: subject);
+      }
+    }
+  }
+
+  _walk(depth, action);
 }
 
 void testClear() {
@@ -53,6 +74,82 @@ void testClear() {
   expect(groupCount, 0, reason: subject);
 }
 
+void testGetAlignedGroups() {
+  var subject = "SparseList.testGetAlignedGroups()";
+  var depth = 5;
+  void action(List<bool> first, List<bool> second) {
+    var sparse = new SparseList<int>(defaultValue: FAILURE);
+    var ranges = _patternToRanges(first);
+    // Add group
+    for (var range in ranges) {
+      sparse.addGroup(grp(range.start, range.end, SUCCESS));
+    }
+
+    ranges = _patternToRanges(second);
+    for (var range in ranges) {
+      var groups = sparse.getAlignedGroups(range);
+      var min = -1;
+      var max = -1;
+      var start = -1;
+      var end = -1;
+      for (var group in groups) {
+        if (min == -1) {
+          min = range.start;
+        } else if (min > range.start) {
+          min = range.start;
+        }
+
+        if (max == -1) {
+          max = range.end;
+        } else if (max < range.end) {
+          max = range.end;
+        }
+
+        if (start == -1) {
+          start = group.start;
+        } else if (start > group.start) {
+          start = group.start;
+        }
+
+        if (end == -1) {
+          end = group.end;
+        } else if (end < group.end) {
+          end = group.end;
+        }
+
+        var indexes = sparse.getIndexes().toList();
+        if (indexes.length == 0) {
+          // Sparse list is empty
+          expect(group.key, FAILURE, reason: subject);
+        } else {
+          // Sparse list is not empty
+          var listStart = indexes.first;
+          var listEnd = indexes.last;
+          //
+          if (group.start < listStart) {
+            expect(group.key, FAILURE, reason: subject);
+          }
+
+          if (group.start >= listStart && group.start <= listStart) {
+            expect(group.key, SUCCESS, reason: subject);
+          }
+
+          if (group.start > listEnd) {
+            expect(group.key, FAILURE, reason: subject);
+          }
+        }
+      }
+
+      // Test alignment in specified range
+      expect(start, min, reason: subject);
+      expect(end, max, reason: subject);
+    }
+  }
+
+  _walk(depth, action);
+}
+
+// TODO: Rewrite with walker
 void testGetGroups() {
   var subject = "SparseList.getGroups()";
   //
@@ -103,6 +200,7 @@ void testGetGroups() {
   expect(actual, [], reason: subject);
 }
 
+// TODO: Rewrite with walker
 void testGetIndexes() {
   var subject = "SparseList.getIndexes()";
   //
@@ -118,6 +216,7 @@ void testGetIndexes() {
   expect(actual, [2, 3, 4, 6, 7, 8], reason: subject);
 }
 
+// TODO: Rewrite with walker
 void testLength() {
   var subject = "SparseList.length=";
   //
@@ -139,6 +238,7 @@ void testLength() {
   expect(groupCount, 1, reason: subject);
 }
 
+// TODO: Rewrite with walker
 void testRemoveValues() {
   var subject = "SparseList.removeValues()";
   var sparse = new SparseList<int>();
@@ -270,118 +370,35 @@ void testRemoveValues() {
 
 void testResetValues() {
   var subject = "SparseList.resetValues()";
-  /*
-   * -
-   * -
-   */
-  var sparse = new SparseList<int>(length: 1);
-  sparse[0] = 1;
-  sparse.resetValues(rng(0, 0));
-  var actual = sparse;
-  expect(actual, [null], reason: subject);
-  var groupCount = sparse.groupCount;
-  expect(groupCount, 0, reason: subject);
-  /*
-   * --
-   * -
-   */
-  sparse = new SparseList<int>(length: 2);
-  sparse[0] = 1;
-  sparse[1] = 1;
-  sparse.resetValues(rng(0, 0));
-  actual = sparse;
-  expect(actual, [null, 1], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 1, reason: subject);
-  /*
-   * -
-   * --
-   */
-  sparse = new SparseList<int>(length: 2);
-  sparse[0] = 1;
-  sparse.resetValues(rng(0, 1));
-  actual = sparse;
-  groupCount = sparse.groupCount;
-  expect(actual, [null, null], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 0, reason: subject);
-  /*
-   * -
-   *  -
-   */
-  sparse = new SparseList<int>(length: 2);
-  sparse[0] = 1;
-  sparse.resetValues(rng(1, 1));
-  actual = sparse;
-  expect(actual, [1, null], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 1, reason: subject);
-  /*
-   * --
-   *  -
-   */
-  sparse = new SparseList<int>(length: 2);
-  sparse[0] = 1;
-  sparse[1] = 1;
-  sparse.resetValues(rng(1, 1));
-  actual = sparse;
-  expect(actual, [1, null], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 1, reason: subject);
-  /*
-   * ---
-   *  -
-   */
-  sparse = new SparseList<int>(length: 3);
-  sparse[0] = 1;
-  sparse[1] = 1;
-  sparse[2] = 1;
-  sparse.resetValues(rng(1, 1));
-  actual = sparse;
-  expect(actual, [1, null, 1], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 2, reason: subject);
-  /*
-   * ---
-   *  --
-   */
-  sparse = new SparseList<int>(length: 3);
-  sparse[0] = 1;
-  sparse[1] = 1;
-  sparse[2] = 1;
-  sparse.resetValues(rng(1, 2));
-  actual = sparse;
-  expect(actual, [1, null, null], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 1, reason: subject);
-  /*
-   * ---
-   *  ---
-   */
-  sparse = new SparseList<int>(length: 4);
-  sparse[0] = 1;
-  sparse[1] = 1;
-  sparse[2] = 1;
-  sparse.resetValues(rng(1, 3));
-  actual = sparse;
-  expect(actual, [1, null, null, null], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 1, reason: subject);
-  /*
-   * - - -
-   *  ---
-   */
-  sparse = new SparseList<int>(length: 5);
-  sparse[0] = 1;
-  sparse[2] = 1;
-  sparse[4] = 1;
-  sparse.resetValues(rng(1, 3));
-  actual = sparse;
-  expect(actual, [1, null, null, null, 1], reason: subject);
-  groupCount = sparse.groupCount;
-  expect(groupCount, 2, reason: subject);
+  var depth = 5;
+  void action(List<bool> first, List<bool> second) {
+    var sparse = new SparseList<int>(length: depth);
+    // Set values
+    for (var i = 0; i < depth; i++) {
+      if (first[i]) {
+        sparse[i] = 1;
+      }
+    }
+
+    var ranges = _patternToRanges(second);
+    // Reset values
+    for (var range in ranges) {
+      sparse.resetValues(range);
+    }
+
+    // Test values
+    for (var range in ranges) {
+      for (var i = range.start; i <= range.end; i++) {
+        var actual = sparse[i];
+        expect(actual, null, reason: subject);
+      }
+    }
+  }
+
+  _walk(depth, action);
 }
 
+// TODO: Rewrite with walker
 void testSetDifferent() {
   var subject = "SparseList.[]";
   /*
@@ -501,6 +518,7 @@ void testSetDifferent() {
   expect(groupCount, 3, reason: subject);
 }
 
+// TODO: Rewrite with walker
 void testSetTheSame() {
   var subject = "SparseList.[]";
   /*
@@ -581,6 +599,7 @@ void testSetWithStep() {
   }
 }
 
+// TODO: Rewrite with walker
 void testsetGroupDifferent() {
   var subject = "SparseList.setGroup()";
   /*
@@ -684,6 +703,7 @@ void testsetGroupDifferent() {
   expect(groupCount, 3, reason: subject);
 }
 
+// TODO: Rewrite with walker
 void testSetGroupTheSame() {
   var subject = "SparseList.setGroup()";
   /*
@@ -825,6 +845,70 @@ List<int> flatten2(SparseList list) {
     p.add(c.key);
     return p;
   });
+}
+
+int patternLength(List<bool> pattern) {
+  var length = 0;
+  for (var i = 0; i < pattern.length; i++) {
+    if (pattern[i]) {
+      length = i + 1;
+    }
+  }
+
+  return length;
+}
+
+List<RangeList> _patternToRanges(List<bool> pattern) {
+  var ranges = [];
+  var length = pattern.length;
+  int start;
+  for (var i = 0; i < length; i++) {
+    if (!pattern[i]) {
+      if (start != null) {
+        ranges.add(rng(start, i - 1));
+        start = null;
+      }
+    } else {
+      if (start == null) {
+        start = i;
+      }
+    }
+  }
+
+  if (start != null) {
+    ranges.add(rng(start, length - 1));
+  }
+
+  return ranges;
+}
+
+void _walk(int depth, action(List<bool> first, List<bool> second)) {
+  var count = 1 << depth;
+  for (var i = 0; i < count; i++) {
+    var first = new List<bool>.filled(depth, false);
+    var flag = i;
+    for (var bit = 0; bit < depth; bit++) {
+      if (flag & 1 != 0) {
+        first[bit] = true;
+      }
+
+      flag >>= 1;
+    }
+
+    for (var j = 0; j < count; j++) {
+      var second = new List<bool>.filled(depth, false);
+      var flag = j;
+      for (var bit = 0; bit < depth; bit++) {
+        if (flag & 1 != 0) {
+          second[bit] = true;
+        }
+
+        flag >>= 1;
+      }
+
+      action(first, second);
+    }
+  }
 }
 
 GroupedRangeList grp(int start, int end, dynamic value) {

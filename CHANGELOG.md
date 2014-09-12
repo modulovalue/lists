@@ -1,11 +1,15 @@
+## 0.0.19
+
+- Added method `getAlignedGroups(RangeList range) => List<GroupedRangeList<E>>` to `SparseList<E>`
+
 ## 0.0.18
 
 - Fixed bug in `SparseList.getGroups()`
 
 ## 0.0.17
 
-- Added field `frozen => bool>` to `SparseList<E>`
-- Added method `freeze() => void>` to `SparseList<E>`
+- Added field `frozen => bool` to `SparseList<E>`
+- Added method `freeze() => void` to `SparseList<E>`
 - `SparseList<E>` now can be frozen
 
 ## 0.0.16
