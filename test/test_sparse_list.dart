@@ -8,6 +8,7 @@ const int SUCCESS = 41;
 void main() {
   testAddGroup();
   testClear();
+  testGetAllSpace();
   testGetAlignedGroups();
   testGetGroups();
   testGetIndexes();
@@ -72,6 +73,17 @@ void testClear() {
   expect(actual, [], reason: subject);
   var groupCount = sparse.groupCount;
   expect(groupCount, 0, reason: subject);
+}
+
+// TODO: Rewrite with walker
+void testGetAllSpace() {
+  var subject = "SparseList.testAllSpace()";
+  var sparse = new SparseList<int>(defaultValue: FAILURE);
+  sparse.length = 10;
+  sparse.addGroup(grp(2, 3, SUCCESS));
+  sparse.addGroup(grp(7, 8, SUCCESS));
+  var space = sparse.getAllSpace(rng(0, 10));
+  expect(space, [[0, 1], [2, 3], [4, 5, 6], [7, 8], [9, 10]], reason: subject);
 }
 
 void testGetAlignedGroups() {

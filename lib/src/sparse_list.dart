@@ -211,6 +211,10 @@ class SparseList<E> extends Object with ListMixin<E> {
    * expanded (with default value) or shrunk to specified [range].
    */
   List<GroupedRangeList<E>> getAlignedGroups(RangeList range) {
+    if (range == null) {
+      throw new ArgumentError("range: $range");
+    }
+
     var groups = getGroups(range).toList();
     var length = groups.length;
     if (length == 0) {
@@ -231,6 +235,35 @@ class SparseList<E> extends Object with ListMixin<E> {
       groups.add(addition);
     } else if (range.end < last.end) {
       groups[groups.length - 1] = last.intersection(range);
+    }
+
+    return groups;
+  }
+
+  /**
+   * Returns all space as groups (including synthetic groups with default
+   * values from not filled space) that intersects with the specified [range]
+   * which being expanded (with default value) or shrunk to specified [range].
+   */
+  List<GroupedRangeList<E>> getAllSpace(RangeList range) {
+    if (range == null) {
+      throw new ArgumentError("range: $range");
+    }
+
+    var groups = <GroupedRangeList<E>>[];
+    GroupedRangeList<E> previous;
+    for (var group in getAlignedGroups(range)) {
+      if (previous != null) {
+        var start = previous.end + 1;
+        var delta = group.start - start;
+        if (delta > 0) {
+          // Adds the synthetic group
+          groups.add(new GroupedRangeList<E>(start, group.start - 1, defaultValue));
+        }
+      }
+
+      groups.add(group);
+      previous = group;
     }
 
     return groups;
