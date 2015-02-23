@@ -1,9 +1,9 @@
 lists
 =====
 
-Collection of the lists (BitList, FilledList, GroupedRangeList, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
+Collection of the lists (BitList, FilledList, GroupedRangeList, ListPointer, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 
-Version: 0.0.20
+Version: 0.0.21
 
 ```dart
 import "package:lists/lists.dart";

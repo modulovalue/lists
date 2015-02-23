@@ -1,3 +1,11 @@
+## 0.0.21
+
+- Added `ListPointer` which can be used effectively when porting the programs written in the C language
+
+## 0.0.20
+
+- Added method `getAllSpace(RangeList range) => List<GroupedRangeList<E>>` to `SparseList<E>`
+
 ## 0.0.19
 
 - Added method `getAlignedGroups(RangeList range) => List<GroupedRangeList<E>>` to `SparseList<E>`
