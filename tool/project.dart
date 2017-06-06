@@ -145,7 +145,7 @@ String incrementVersion(String version) {
     return version;
   }
 
-  parts[2] = ++patch;
+  parts[2] = (++patch).toString();
   parts.length = 3;
   return parts.join(".");
 }

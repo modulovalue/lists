@@ -41,21 +41,15 @@ class StepList extends Object with ListMixin<int> {
     }
   }
 
-  /**
-   * Returns the length of list.
-   */
+  /// Returns the length of list.
   int get length => _length;
 
-  /**
-   * Sets the length of list.
-   */
+  /// Sets the length of list.
   void set length(int length) {
     throw new UnsupportedError("length=");
   }
 
-  /**
-   * Returns the step.
-   */
+  /// Returns the step.
   int get step => _step;
 
   int operator [](int index) {
@@ -74,9 +68,8 @@ class StepList extends Object with ListMixin<int> {
     throw new UnsupportedError("operator []=");
   }
 
-  /**
-   * Returns true if list contains the [value]; otherwise false.
-   */
+  /// Returns true if list contains the [value]; otherwise false.
+  // ignore: strong_mode_invalid_method_override
   bool contains(int value) {
     if (value == null) {
       return false;
@@ -97,9 +90,7 @@ class StepList extends Object with ListMixin<int> {
     return false;
   }
 
-  /**
-   * Returns the string representation of range.
-   */
+  /// Returns the string representation of range.
   String toString() {
     if (step > 0) {
       return "[$start..$end; +$step]";

@@ -1,12 +1,14 @@
 import "package:lists/lists.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 void main() {
-  testContains();
-  testIterable();
-  testLength();
-  testList();
-  testReversed();
+  test('', () {
+    testContains();
+    testIterable();
+    testLength();
+    testList();
+    testReversed();
+  });
 }
 
 void testContains() {

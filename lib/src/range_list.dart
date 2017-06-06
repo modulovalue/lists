@@ -1,8 +1,6 @@
 part of lists;
 
-/**
- * Range list.
- */
+/// Range list.
 class RangeList extends Object with ListMixin<int> {
   final int end;
 
@@ -26,14 +24,10 @@ class RangeList extends Object with ListMixin<int> {
     _length = end - start + 1;
   }
 
-  /**
-   * Returns the length of list.
-   */
+  /// Returns the length of list.
   int get length => _length;
 
-  /**
-   * Sets the length of list.
-   */
+  /// Sets the length of list.
   void set length(int length) {
     throw new UnsupportedError("length=");
   }
@@ -88,9 +82,8 @@ class RangeList extends Object with ListMixin<int> {
     throw new UnsupportedError("operator []=");
   }
 
-  /**
-   * Returns true if range list contains the [value]; otherwise false.
-   */
+  /// Returns true if range list contains the [value]; otherwise false.
+  // ignore: strong_mode_invalid_method_override
   bool contains(int value) {
     if (value == null || value > end || value < start) {
       return false;
@@ -99,9 +92,7 @@ class RangeList extends Object with ListMixin<int> {
     return true;
   }
 
-  /**
-   * Returns true if this range list includes [other]; otherwise false.
-   */
+  /// Returns true if this range list includes [other]; otherwise false.
   bool includes(RangeList other) {
     if (other == null) {
       throw new ArgumentError("other: $other");
@@ -110,9 +101,7 @@ class RangeList extends Object with ListMixin<int> {
     return (other.start >= start && other.start <= end) && (other.end >= start && other.end <= end);
   }
 
-  /**
-   * Returns true if this range list intersect [other]; otherwise false.
-   */
+  /// Returns true if this range list intersect [other]; otherwise false.
   bool intersect(RangeList other) {
     if (other == null) {
       throw new ArgumentError("other: $other");
@@ -121,10 +110,8 @@ class RangeList extends Object with ListMixin<int> {
     return (start <= other.start && end >= other.start) || (other.start <= start && other.end >= start);
   }
 
-  /**
-   * Returns the intersection of this range list and the [other] range list;
-   * otherwise null.
-   */
+  /// Returns the intersection of this range list and the [other] range list;
+  /// otherwise null.
   RangeList intersection(RangeList other) {
     if (other == null) {
       throw new ArgumentError("other: $other");
@@ -151,10 +138,8 @@ class RangeList extends Object with ListMixin<int> {
     return new RangeList(start, end);
   }
 
-  /**
-   * Subtracts from this range the [other] range and returns the the resulting
-   * ranges.
-   */
+  /// Subtracts from this range the [other] range and returns the the resulting
+  /// ranges.
   List<RangeList> subtract(RangeList other) {
     if (other == null) {
       throw new ArgumentError("other: $other");
@@ -176,14 +161,10 @@ class RangeList extends Object with ListMixin<int> {
     return result;
   }
 
-  /**
-   * Returns the list of elements with specified step.
-   */
+  /// Returns the list of elements with specified step.
   StepList toStepList(int step) => new StepList(start, end, step);
 
-  /**
-   * Returns the string representation of range list.
-   */
+  /// Returns the string representation of range list.
   String toString() {
     return "[$start..$end]";
   }

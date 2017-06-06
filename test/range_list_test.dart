@@ -1,16 +1,18 @@
 import "package:lists/lists.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 void main() {
-  testAdd();
-  testContains();
-  testIncludes();
-  testIntersect();
-  testIntersection();
-  testIterable();
-  testrng();
-  testReversed();
-  testSubtract();
+  test('', () {
+    testAdd();
+    testContains();
+    testIncludes();
+    testIntersect();
+    testIntersection();
+    testIterable();
+    testrng();
+    testReversed();
+    testSubtract();
+  });
 }
 
 void testAdd() {

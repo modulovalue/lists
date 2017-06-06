@@ -1,3 +1,7 @@
+## 0.0.22
+
+- Added `strong_mode` option
+
 ## 0.0.21
 
 - Added `ListPointer` which can be used effectively when porting the programs written in the C language
