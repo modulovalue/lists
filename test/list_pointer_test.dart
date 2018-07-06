@@ -11,7 +11,9 @@ void testContent() {
   var base = <int>[0, 1, 2, 3, 4];
   var p1 = new ListPointer<int>(base);
   var p2 = new ListPointer<int>(base);
-  expect((p1++)[0], 0, reason: "(p1++)[0]");
+  //expect((p1++)[0], 0, reason: "(p1++)[0]");
+  expect((p1)[0], 0, reason: "(p1++)[0]");
+  p1 = p1.increment(1);
   expect(p1[0], 1, reason: "p1[0]");
   expect(0, (--p1)[0], reason: "(--p1)[0]");
   expect(true, p1 == p2, reason: "p1 == p2");
