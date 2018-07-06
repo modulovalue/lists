@@ -44,23 +44,25 @@ class RangeList extends Object with ListMixin<int> {
     return false;
   }
 
-  RangeList operator +(RangeList other) {
-    if (other == null) {
+  RangeList operator +(List<int> other) {
+    if (other == null || other is! RangeList) {
       throw new ArgumentError("other: $other");
     }
 
     int start;
     int end;
-    if (this.start < other.start) {
+
+    var otherRange = other as RangeList;
+    if (this.start < otherRange.start) {
       start = this.start;
     } else {
-      start = other.start;
+      start = otherRange.start;
     }
 
-    if (this.end > other.end) {
+    if (this.end > otherRange.end) {
       end = this.end;
     } else {
-      end = other.end;
+      end = otherRange.end;
     }
 
     return new RangeList(start, end);
