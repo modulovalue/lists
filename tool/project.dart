@@ -54,7 +54,7 @@ void main(List<String> args) {
 
   target("git:commit", [CHANGELOG_MD, README_MD, "git:add"], (Target t, Map
       args) {
-    var message = args["m"];
+    var message = args["m"] as String;
     if (message == null || message.isEmpty) {
       print("Please, specify the `commit` message with --m option");
       return -1;
@@ -80,7 +80,7 @@ void main(List<String> args) {
   }, description: "git push origin master");
 
   target("log:changes", [], (Target t, Map args) {
-    var message = args["m"];
+    var message = args["m"] as String;
     if (message == null || message.isEmpty) {
       print("Please, specify the `message` with --m option");
       return -1;
