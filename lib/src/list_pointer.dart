@@ -80,7 +80,6 @@ class ListPointer<T> extends Object with ListMixin {
       if (identical(base, other.base)) {
         return offset < other.offset;
       }
-
     } else if (other is List) {
       if (identical(base, other)) {
         return offset < 0;
@@ -95,7 +94,6 @@ class ListPointer<T> extends Object with ListMixin {
       if (identical(base, other.base)) {
         return offset <= other.offset;
       }
-
     } else if (other is List) {
       if (identical(base, other)) {
         return offset <= 0;
@@ -112,7 +110,6 @@ class ListPointer<T> extends Object with ListMixin {
           return true;
         }
       }
-
     } else if (other is List) {
       if (identical(base, other)) {
         if (offset == 0) {
@@ -129,7 +126,6 @@ class ListPointer<T> extends Object with ListMixin {
       if (identical(base, other.base)) {
         return offset > other.offset;
       }
-
     } else if (other is List) {
       if (identical(base, other)) {
         return offset > 0;
@@ -144,7 +140,6 @@ class ListPointer<T> extends Object with ListMixin {
       if (identical(base, other.base)) {
         return offset >= other.offset;
       }
-
     } else if (other is List) {
       if (identical(base, other)) {
         return offset >= 0;

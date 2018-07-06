@@ -96,6 +96,5 @@ class StepList extends Object with ListMixin<int> {
     } else {
       return "[$start..$end; $step]";
     }
-
   }
 }

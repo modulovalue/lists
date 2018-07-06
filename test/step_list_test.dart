@@ -58,8 +58,7 @@ void testLength() {
 void testList() {
   var result = list(0, 49, 10);
   expect(result is List<int>, true, reason: "StepList is List<int>");
-  for (var i = 0,
-      index = 0; i <= 49; i += 10, index++) {
+  for (var i = 0, index = 0; i <= 49; i += 10, index++) {
     expect(result[index], i, reason: "StepList[$index]");
   }
 }

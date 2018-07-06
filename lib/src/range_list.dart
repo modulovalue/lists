@@ -86,7 +86,10 @@ class RangeList extends Object with ListMixin<int> {
 
   /// Returns true if range list contains the [value]; otherwise false.
   bool contains(value) {
-    if (value == null || value is! int || (value as int) > end || (value as int) < start) {
+    if (value == null ||
+        value is! int ||
+        (value as int) > end ||
+        (value as int) < start) {
       return false;
     }
 
@@ -99,7 +102,8 @@ class RangeList extends Object with ListMixin<int> {
       throw new ArgumentError("other: $other");
     }
 
-    return (other.start >= start && other.start <= end) && (other.end >= start && other.end <= end);
+    return (other.start >= start && other.start <= end) &&
+        (other.end >= start && other.end <= end);
   }
 
   /// Returns true if this range list intersect [other]; otherwise false.
@@ -108,7 +112,8 @@ class RangeList extends Object with ListMixin<int> {
       throw new ArgumentError("other: $other");
     }
 
-    return (start <= other.start && end >= other.start) || (other.start <= start && other.end >= start);
+    return (start <= other.start && end >= other.start) ||
+        (other.start <= start && other.end >= start);
   }
 
   /// Returns the intersection of this range list and the [other] range list;

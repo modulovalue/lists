@@ -26,8 +26,8 @@ void main(List<String> args) {
     FileUtils.touch([t.name], create: true);
   });
 
-  file(README_MD, [README_MD_IN, PUBSPEC_YAML, EXAMPLE_DART], (Target t, Map
-      args) {
+  file(README_MD, [README_MD_IN, PUBSPEC_YAML, EXAMPLE_DART],
+      (Target t, Map args) {
     var sources = t.sources.toList();
     var template = new File(sources.removeAt(0)).readAsStringSync();
     // Remove "pubspec.yaml"
@@ -52,8 +52,8 @@ void main(List<String> args) {
     return exec("git", ["add", "--all"]);
   }, description: "git add --all");
 
-  target("git:commit", [CHANGELOG_MD, README_MD, "git:add"], (Target t, Map
-      args) {
+  target("git:commit", [CHANGELOG_MD, README_MD, "git:add"],
+      (Target t, Map args) {
     var message = args["m"] as String;
     if (message == null || message.isEmpty) {
       print("Please, specify the `commit` message with --m option");
@@ -89,11 +89,11 @@ void main(List<String> args) {
     logChanges(message);
   }, description: "log changes, --m message", reusable: true);
 
-  target("prj:changelog", [CHANGELOG_MD], null, description:
-      "generate '$CHANGELOG_MD'", reusable: true);
+  target("prj:changelog", [CHANGELOG_MD], null,
+      description: "generate '$CHANGELOG_MD'", reusable: true);
 
-  target("prj:readme", [README_MD], null, description: "generate '$README_MD'",
-      reusable: true);
+  target("prj:readme", [README_MD], null,
+      description: "generate '$README_MD'", reusable: true);
 
   target("prj:version", [], (Target t, Map args) {
     print("Version: ${getVersion()}");
@@ -207,7 +207,7 @@ void writeChangelogMd() {
 
   var lines = log.readAsLinesSync();
   lines = lines.reversed.toList();
-  var versions = <String, List<String>> {};
+  var versions = <String, List<String>>{};
   for (var line in lines) {
     var index = line.indexOf(" ");
     if (index != -1) {
