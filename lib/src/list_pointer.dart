@@ -57,7 +57,7 @@ class ListPointer<T> extends Object with ListMixin {
 
   ListPointer<T> operator +(other) {
     if (other is int) {
-      return new ListPointer<T>(base, offset + other);
+      return new ListPointer<T>(base, offset + (other as int));
     }
 
     throw new ArgumentError.value(other, "other");
