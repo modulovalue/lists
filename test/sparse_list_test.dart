@@ -851,9 +851,9 @@ List<int> flatten1(SparseList list) {
   });
 }
 
-List<int> flatten2(SparseList list) {
+List<int> flatten2(SparseList<int> list) {
   var groups = list.getGroups(new RangeList(0, list.length));
-  return groups.fold([], (List p, GroupedRangeList c) {
+  return groups.fold<List<int>>(<int>[], (List<int> p, GroupedRangeList<int> c) {
     p.add(c.start);
     p.add(c.end);
     p.add(c.key);
@@ -873,7 +873,7 @@ int patternLength(List<bool> pattern) {
 }
 
 List<RangeList> _patternToRanges(List<bool> pattern) {
-  var ranges = [];
+  var ranges = <RangeList>[];
   var length = pattern.length;
   int start;
   for (var i = 0; i < length; i++) {
