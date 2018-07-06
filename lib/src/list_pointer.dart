@@ -158,7 +158,7 @@ class ListPointer<T> extends Object with ListMixin {
     return base[_offset + index];
   }
 
-  void operator []=(int index, T value) {
-    base[_offset + index] = value;
+  void operator []=(int index, value) {
+    base[_offset + index] = value as T;
   }
 }
