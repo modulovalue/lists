@@ -69,7 +69,6 @@ class StepList extends Object with ListMixin<int> {
   }
 
   /// Returns true if list contains the [value]; otherwise false.
-  // ignore: strong_mode_invalid_method_override
   bool contains(int value) {
     if (value == null) {
       return false;

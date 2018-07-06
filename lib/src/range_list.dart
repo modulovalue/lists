@@ -85,7 +85,6 @@ class RangeList extends Object with ListMixin<int> {
   }
 
   /// Returns true if range list contains the [value]; otherwise false.
-  // ignore: strong_mode_invalid_method_override
   bool contains(int value) {
     if (value == null || value > end || value < start) {
       return false;
