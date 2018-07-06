@@ -69,8 +69,8 @@ class StepList extends Object with ListMixin<int> {
   }
 
   /// Returns true if list contains the [value]; otherwise false.
-  bool contains(int value) {
-    if (value == null) {
+  bool contains(value) {
+    if (value == null || value is! int) {
       return false;
     }
 
@@ -78,7 +78,7 @@ class StepList extends Object with ListMixin<int> {
       return value == start;
     }
 
-    var position = value - start;
+    var position = (value as int) - start;
     var index = position ~/ step;
     if (index >= 0 && index < _length) {
       if (position % index == 0) {
