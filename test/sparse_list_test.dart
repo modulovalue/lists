@@ -925,8 +925,8 @@ void _walk(int depth, action(List<bool> first, List<bool> second)) {
   }
 }
 
-GroupedRangeList grp(int start, int end, dynamic value) {
-  return new GroupedRangeList(start, end, value);
+GroupedRangeList<T> grp<T>(int start, int end, T value) {
+  return new GroupedRangeList<T>(start, end, value);
 }
 
 RangeList rng(int start, int end) {
