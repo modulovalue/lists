@@ -85,7 +85,16 @@ void testGetAllSpace() {
   sparse.addGroup(grp(2, 3, SUCCESS));
   sparse.addGroup(grp(7, 8, SUCCESS));
   var space = sparse.getAllSpace(rng(0, 10));
-  expect(space, [[0, 1], [2, 3], [4, 5, 6], [7, 8], [9, 10]], reason: subject);
+  expect(
+      space,
+      [
+        [0, 1],
+        [2, 3],
+        [4, 5, 6],
+        [7, 8],
+        [9, 10]
+      ],
+      reason: subject);
 }
 
 void testGetAlignedGroups() {
@@ -173,35 +182,74 @@ void testGetGroups() {
   sparse.addGroup(grp(4, 4, 1));
   var groups = sparse.getGroups(rng(0, 4)).toList();
   var actual = groups;
-  expect(actual, [[0], [2], [4]], reason: subject);
+  expect(
+      actual,
+      [
+        [0],
+        [2],
+        [4]
+      ],
+      reason: subject);
   //
   groups = sparse.getGroups(rng(0, 0)).toList();
   actual = groups;
-  expect(actual, [[0]], reason: subject);
+  expect(
+      actual,
+      [
+        [0]
+      ],
+      reason: subject);
   //
   groups = sparse.getGroups(rng(0, 2)).toList();
   actual = groups;
-  expect(actual, [[0], [2]], reason: subject);
+  expect(
+      actual,
+      [
+        [0],
+        [2]
+      ],
+      reason: subject);
   //
   groups = sparse.getGroups(rng(2, 2)).toList();
   actual = groups;
-  expect(actual, [[2]], reason: subject);
+  expect(
+      actual,
+      [
+        [2]
+      ],
+      reason: subject);
   //
   groups = sparse.getGroups(rng(2, 4)).toList();
   actual = groups;
-  expect(actual, [[2], [4]], reason: subject);
+  expect(
+      actual,
+      [
+        [2],
+        [4]
+      ],
+      reason: subject);
   //
   sparse = new SparseList<int>();
   sparse.addGroup(grp(0, 2, 1));
   groups = sparse.getGroups(rng(1, 1)).toList();
   actual = groups;
-  expect(actual, [[0, 1, 2]], reason: subject);
+  expect(
+      actual,
+      [
+        [0, 1, 2]
+      ],
+      reason: subject);
   // Get all groups
   sparse = new SparseList<int>();
   sparse.addGroup(grp(0, 2, 1));
   groups = sparse.getGroups().toList();
   actual = groups;
-  expect(actual, [[0, 1, 2]], reason: subject);
+  expect(
+      actual,
+      [
+        [0, 1, 2]
+      ],
+      reason: subject);
   // From empty list
   sparse = new SparseList<int>();
   groups = sparse.getGroups(rng(0, 0)).toList();
@@ -851,9 +899,10 @@ List<int> flatten1(SparseList list) {
   });
 }
 
-List<int> flatten2(SparseList list) {
+List<int> flatten2(SparseList<int> list) {
   var groups = list.getGroups(new RangeList(0, list.length));
-  return groups.fold([], (List p, GroupedRangeList c) {
+  return groups.fold<List<int>>(<int>[],
+      (List<int> p, GroupedRangeList<int> c) {
     p.add(c.start);
     p.add(c.end);
     p.add(c.key);
@@ -873,7 +922,7 @@ int patternLength(List<bool> pattern) {
 }
 
 List<RangeList> _patternToRanges(List<bool> pattern) {
-  var ranges = [];
+  var ranges = <RangeList>[];
   var length = pattern.length;
   int start;
   for (var i = 0; i < length; i++) {
@@ -925,8 +974,8 @@ void _walk(int depth, action(List<bool> first, List<bool> second)) {
   }
 }
 
-GroupedRangeList grp(int start, int end, dynamic value) {
-  return new GroupedRangeList(start, end, value);
+GroupedRangeList<T> grp<T>(int start, int end, T value) {
+  return new GroupedRangeList<T>(start, end, value);
 }
 
 RangeList rng(int start, int end) {
