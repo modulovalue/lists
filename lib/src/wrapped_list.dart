@@ -11,12 +11,6 @@ class WrappedList<E> extends Object with ListMixin<E> {
     _source = source;
   }
 
-  E operator [](int index) => _source[index];
-
-  void operator []=(int index, E value) {
-    throw new UnsupportedError("operator []=");
-  }
-
   /**
    * Returns the length of list.
    */
@@ -27,6 +21,12 @@ class WrappedList<E> extends Object with ListMixin<E> {
    */
   void set length(int length) {
     throw new UnsupportedError("length=");
+  }
+
+  E operator [](int index) => _source[index];
+
+  void operator []=(int index, E value) {
+    throw new UnsupportedError("operator []=");
   }
 
   /**

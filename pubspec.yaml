@@ -1,5 +1,5 @@
 name: lists
-version: 0.0.23
+version: 0.1.0
 author: Andrew Mezoni <andrew.mezoni@gmail.com>
 description: Collection of the lists (BitList, FilledList, GroupedRangeList, ListPointer, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 homepage: https://github.com/mezoni/lists

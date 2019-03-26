@@ -7,6 +7,8 @@ void main() {
   });
 }
 
+BitList list(int length, [bool fill]) => new BitList(length, fill);
+
 void testContent() {
   var result = list(3);
   expect(result, [false, false, false], reason: "BitList");
@@ -33,5 +35,3 @@ void testContent() {
     expect(bits.get(i), false, reason: "BitList.[$i]");
   }
 }
-
-BitList list(int length, [bool fill]) => new BitList(length, fill);

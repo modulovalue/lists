@@ -32,18 +32,6 @@ class RangeList extends Object with ListMixin<int> {
     throw new UnsupportedError("length=");
   }
 
-  bool operator ==(other) {
-    if (identical(this, other)) {
-      return true;
-    }
-
-    if (other is RangeList) {
-      return start == other.start && end == other.end;
-    }
-
-    return false;
-  }
-
   RangeList operator +(List<int> other) {
     if (other == null || other is! RangeList) {
       throw new ArgumentError("other: $other");
@@ -66,6 +54,18 @@ class RangeList extends Object with ListMixin<int> {
     }
 
     return new RangeList(start, end);
+  }
+
+  bool operator ==(other) {
+    if (identical(this, other)) {
+      return true;
+    }
+
+    if (other is RangeList) {
+      return start == other.start && end == other.end;
+    }
+
+    return false;
   }
 
   int operator [](int index) {

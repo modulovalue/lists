@@ -15,6 +15,10 @@ void main() {
   });
 }
 
+RangeList rng(int start, int end) {
+  return new RangeList(start, end);
+}
+
 void testAdd() {
   var result = rng(0, 1) + rng(1, 2);
   expect(result, [0, 1, 2], reason: "RangeList.add");
@@ -82,6 +86,11 @@ void testIterable() {
   }
 }
 
+void testReversed() {
+  var result = rng(-1, 1).reversed;
+  expect(result, [1, 0, -1], reason: "RangeList.reversed");
+}
+
 void testrng() {
   var result = rng(0, 5);
   expect(result is List<int>, true, reason: "RangeList is List<int>");
@@ -89,11 +98,6 @@ void testrng() {
   for (var i = 0; i < length; i++) {
     expect(result[i], i, reason: "RangeList[$i]");
   }
-}
-
-void testReversed() {
-  var result = rng(-1, 1).reversed;
-  expect(result, [1, 0, -1], reason: "RangeList.reversed");
 }
 
 void testSubtract() {
@@ -121,8 +125,4 @@ void testSubtract() {
         [2, 3]
       ],
       reason: "RangeList.subtract");
-}
-
-RangeList rng(int start, int end) {
-  return new RangeList(start, end);
 }

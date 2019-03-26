@@ -50,15 +50,15 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Returns the number of groups.
+   */
+  int get groupCount => _groups.length;
+
+  /**
    * Returns a read-only list of the groups.
    */
   List<GroupedRangeList<E>> get groups =>
       new UnmodifiableListView<GroupedRangeList<E>>(_groups);
-
-  /**
-   * Returns the number of groups.
-   */
-  int get groupCount => _groups.length;
 
   /**
    * Returns the length of list.
@@ -208,6 +208,13 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
+   * Makes the list unmodifiable.
+   */
+  void freeze() {
+    _frozen = true;
+  }
+
+  /**
    * Returns all groups that intersects with the specified [range] which being
    * expanded (with default value) or shrunk to specified [range].
    */
@@ -306,17 +313,19 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   /**
-   * Makes the list unmodifiable.
-   */
-  void freeze() {
-    _frozen = true;
-  }
-
-  /**
    * Returns the indexes of the elements with a value.
    */
   Iterable<int> getIndexes() {
-    return new _SparseListIndexesIterator(this);
+    Iterable<int> generator() sync* {
+      for (var group in groups) {
+        var end = group.end;
+        for (var i = group.start; i <= end; i++) {
+          yield i;
+        }
+      }
+    }
+
+    return generator();
   }
 
   /**
@@ -449,57 +458,45 @@ class SparseList<E> extends Object with ListMixin<E> {
   }
 
   void _resetValues(RangeList range) {
-    var rangeEnd = range.end;
     var rangeStart = range.start;
+    var rangeEnd = range.end;
     var length = _groups.length;
     var left = _findNearestIndex(0, length, range.start);
-    var affected = <int>[];
-    var insertAt = -1;
+    var count = 0;
+    var newGroups = <GroupedRangeList<E>>[];
     for (var i = left; i < length; i++) {
       var current = _groups[i];
-      if (range.intersect(current)) {
-        if (range.includes(current)) {
-          affected.add(i);
-        } else {
-          var parts = current.subtract(range);
-          if (parts.length == 2) {
-            _groups.insert(i, parts[0]);
-            _groups[i + 1] = parts[1];
-            return;
-          } else {
-            if (rangeStart <= current.start) {
-              _groups[i] = parts.first;
-              break;
-            } else {
-              _groups[i] = parts.first;
-            }
-          }
-        }
+      var start = current.start;
+      if (start > rangeEnd) {
+        break;
       }
+
+      var intersect = current.intersect(range);
+      if (intersect) {
+        var end = current.end;
+        var key = current.key;
+        if (start < rangeStart) {
+          var newGroup = new GroupedRangeList<E>(start, rangeStart - 1, key);
+          newGroups.add(newGroup);
+        }
+
+        if (end > rangeEnd) {
+          var newGroup = new GroupedRangeList<E>(rangeEnd + 1, end, key);
+          newGroups.add(newGroup);
+        }
+      } else {
+        newGroups.add(current);
+      }
+
+      count++;
     }
 
-    if (affected.length != 0) {
-      var firstIndex = affected.first;
-      var lastIndex = affected.last;
-      var first = _groups[firstIndex];
-      var last = _groups[lastIndex];
-      var start = first.start < rangeStart ? first.start : rangeStart;
-      var end = last.end > rangeEnd ? last.end : rangeEnd;
-      if (firstIndex == lastIndex) {
-        _groups.removeAt(firstIndex);
-      } else {
-        _groups.removeRange(firstIndex, lastIndex + 1);
-      }
-    }
+    _groups.removeRange(left, left + count);
+    _groups.insertAll(left, newGroups);
   }
 
   void _setGroup(GroupedRangeList<E> group) {
     var groupKey = group.key;
-    if (groupKey == defaultValue) {
-      _resetValues(group);
-      return;
-    }
-
     var length = _groups.length;
     if (length == 0) {
       _groups.add(group);
@@ -519,138 +516,56 @@ class SparseList<E> extends Object with ListMixin<E> {
     }
 
     var groupEnd = group.end;
-    var affected = <int>[];
-    var insertAt = -1;
+    var count = 0;
+    var newGroups = <GroupedRangeList<E>>[];
     for (var i = left; i < length; i++) {
       var current = _groups[i];
-      var currentEnd = current.end;
-      var currentKey = current.key;
-      var currentStart = current.start;
-      if (group.intersect(current)) {
-        if (group.includes(current)) {
-          affected.add(i);
-        } else if (currentKey == groupKey) {
-          affected.add(i);
-        } else {
-          var parts = current.subtract(group);
-          if (parts.length == 2) {
-            _groups.insertAll(i, [parts[0], group]);
-            _groups[i + 2] = parts[1];
-            return;
+      var start = current.start;
+      if (start > groupEnd + 1) {
+        break;
+      }
+
+      var end = current.end;
+      var key = current.key;
+      var intersect = current.intersect(group);
+      if (intersect) {
+        if (start < groupStart) {
+          if (key == groupKey) {
+            group = new GroupedRangeList<E>(start, groupEnd, groupKey);
           } else {
-            if (groupStart <= currentStart) {
-              _groups.insert(
-                  i, new GroupedRangeList(currentStart, groupEnd, groupKey));
-              _groups[i + 1] = parts.first;
-              affected.add(i);
-              break;
-            } else {
-              _groups.insert(i, parts.first);
-              _groups[i + 1] =
-                  new GroupedRangeList(groupStart, currentEnd, groupKey);
-              length++;
-            }
+            var newGroup = new GroupedRangeList<E>(start, groupStart - 1, key);
+            newGroups.add(newGroup);
           }
         }
-      } else if (groupEnd + 1 == currentStart && currentKey == groupKey) {
-        affected.add(i);
-        break;
-      } else if (currentEnd + 1 == groupStart && currentKey == groupKey) {
-        affected.add(i);
-      } else if (insertAt == -1 && groupEnd < currentStart) {
-        insertAt = i;
-        break;
-      }
-    }
 
-    if (affected.length == 0) {
-      if (insertAt != -1) {
-        _groups.insert(insertAt, group);
-      } else {
-        _groups.add(group);
-      }
-
-      return;
-    }
-
-    if (affected.length != 0) {
-      var firstIndex = affected.first;
-      var lastIndex = affected.last;
-      var first = _groups[firstIndex];
-      var last = _groups[lastIndex];
-      var start = first.start < groupStart ? first.start : groupStart;
-      var end = last.end > groupEnd ? last.end : groupEnd;
-      var newGroup = new GroupedRangeList(start, end, groupKey);
-      if (firstIndex == lastIndex) {
-        _groups[firstIndex] = newGroup;
-      } else {
-        _groups.removeRange(firstIndex, lastIndex + 1);
-        _groups.insert(firstIndex, newGroup);
-      }
-    }
-  }
-}
-
-class _SparseListIndexesIterator extends Object
-    with IterableMixin<int>
-    implements Iterator<int> {
-  int _count;
-
-  int _current;
-
-  int _end;
-
-  List<GroupedRangeList> _groups;
-
-  int _index;
-
-  int _start;
-
-  int _state = 0;
-
-  _SparseListIndexesIterator(SparseList list) {
-    _groups = list.groups;
-  }
-
-  int get current => _current;
-
-  Iterator<int> get iterator => this;
-
-  bool moveNext() {
-    while (true) {
-      switch (_state) {
-        case 0:
-          _count = _groups.length;
-          if (_count != 0) {
-            var group = _groups[0];
-            _index = 0;
-            _end = group.end;
-            _start = group.start;
-            _state = 1;
-            break;
+        if (end > groupEnd) {
+          if (key == groupKey) {
+            group = new GroupedRangeList<E>(groupStart, end, key);
           } else {
-            _state = 2;
+            var newGroup = new GroupedRangeList<E>(groupEnd + 1, end, key);
+            newGroups.add(newGroup);
           }
-
-          break;
-        case 1:
-          if (_start <= _end) {
-            _current = _start++;
-            return true;
+        }
+      } else {
+        if (key == groupKey) {
+          if (groupStart == end + 1) {
+            group = new GroupedRangeList<E>(start, groupEnd, key);
+          } else if (start == groupEnd + 1) {
+            group = new GroupedRangeList<E>(groupStart, end, key);
+          } else {
+            newGroups.add(current);
           }
-
-          if (++_index == _count) {
-            _state = 2;
-            return false;
-          }
-
-          var group = _groups[_index];
-          _end = group.end;
-          _start = group.start;
-          break;
-        case 2:
-          return false;
+        } else {
+          newGroups.add(current);
+        }
       }
+
+      count++;
     }
+
+    newGroups.add(group);
+    newGroups.sort((a, b) => a.start.compareTo(b.start));
+    _groups.removeRange(left, left + count);
+    _groups.insertAll(left, newGroups);
   }
 }

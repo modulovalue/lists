@@ -14,6 +14,18 @@ class FilledList<E> extends Object with ListMixin<E> {
     _length = length;
   }
 
+  /**
+   * Returns the length of list.
+   */
+  int get length => _length;
+
+  /**
+   * Sets the length of list.
+   */
+  void set length(int length) {
+    throw new UnsupportedError("length=");
+  }
+
   E operator [](int index) {
     if (index == null) {
       throw new ArgumentError("index: $index");
@@ -28,17 +40,5 @@ class FilledList<E> extends Object with ListMixin<E> {
 
   void operator []=(int index, E value) {
     throw new UnsupportedError("operator []=");
-  }
-
-  /**
-   * Returns the length of list.
-   */
-  int get length => _length;
-
-  /**
-   * Sets the length of list.
-   */
-  void set length(int length) {
-    throw new UnsupportedError("length=");
   }
 }

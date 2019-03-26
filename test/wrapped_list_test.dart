@@ -8,6 +8,8 @@ void main() {
   });
 }
 
+WrappedList list(List source) => new WrappedList(source);
+
 void testContent() {
   var result = list([0, 1, 2, 3, 4, 5]);
   expect(result, [0, 1, 2, 3, 4, 5], reason: "WrappedList");
@@ -34,5 +36,3 @@ void testModify() {
 
   expect(result, true, reason: "WrappedList");
 }
-
-WrappedList list(List source) => new WrappedList(source);

@@ -1,4 +1,9 @@
+## 0.1.0
+
+- Algorithm in `SparseList` has been reworked
+
 ## 0.0.23
+
 * Fixed strong-mode cast errors.
 * Added `increment` to `ListPointer`, which is a type-safe way
 to increase the pointer.

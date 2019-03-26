@@ -19,6 +19,18 @@ class BitList extends Object with ListMixin<bool> {
     }
   }
 
+  /**
+   * Returns the length of list.
+   */
+  int get length => _length;
+
+  /**
+   * Sets the length of list.
+   */
+  void set length(int length) {
+    throw new UnsupportedError("length=");
+  }
+
   bool operator [](int index) {
     if (index == null) {
       throw new ArgumentError("index: $index");
@@ -58,33 +70,21 @@ class BitList extends Object with ListMixin<bool> {
   }
 
   /**
-   * Returns the length of list.
-   */
-  int get length => _length;
-
-  /**
-   * Sets the length of list.
-   */
-  void set length(int length) {
-    throw new UnsupportedError("length=");
-  }
-
-  /**
    * Returns the state at specified [index].
    */
   bool get(int index) => this[index];
-
-  /**
-   * Sets the state to true at specified [index].
-   */
-  void set(int index) {
-    this[index] = true;
-  }
 
   /**
    * Resets the state to false at specified [index].
    */
   void reset(int index) {
     this[index] = false;
+  }
+
+  /**
+   * Sets the state to true at specified [index].
+   */
+  void set(int index) {
+    this[index] = true;
   }
 }

@@ -3,7 +3,7 @@ lists
 
 Collection of the lists (BitList, FilledList, GroupedRangeList, ListPointer, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 
-Version: 0.0.21
+Version: 0.1.0
 
 ```dart
 import "package:lists/lists.dart";
@@ -71,8 +71,7 @@ void sparseBoolList() {
   sw.start();
   while (true) {
     var size = 128 * 1024;
-    //list.addGroup(_grp(offset, offset + size, true));
-    list.addGroup(new GroupedRangeList(offset, offset + size, true));
+    list.setGroup(new GroupedRangeList(offset, offset + size, true));
     offset += size + 128 * 1024;
     groupCount++;
     if (offset >= length) {
@@ -84,20 +83,20 @@ void sparseBoolList() {
   var elapsed = (sw.elapsedMilliseconds / 1000);
   print("SparseBoolList: ${_format(groupCount)} groups added in $elapsed sec.");
   //
-  var acessed = 0;
+  var accessed = 0;
   var elementCount = length / 10;
   //
   sw.reset();
   sw.start();
   for (var i = 0; i < length; i += 100) {
     var x = list[i];
-    acessed++;
+    accessed++;
   }
 
   sw.stop();
   elapsed = (sw.elapsedMilliseconds / 1000);
-  print("SparseBoolList: ${_format(acessed)} elements accessed in $elapsed sec."
-      );
+  print(
+      "SparseBoolList: ${_format(accessed)} elements accessed in $elapsed sec.");
 }
 
 void sparseList() {
@@ -164,19 +163,15 @@ void wrappedList() {
   var list = new WrappedList<int>(source);
   try {
     list[0] = 0;
-  } catch (e, s) {
+  } catch (e) {
     print("$e");
   }
 
   try {
     list.length = 0;
-  } catch (e, s) {
+  } catch (e) {
     print("$e");
   }
-}
-
-GroupedRangeList _grp(int start, int end, dynamic key) {
-  return new GroupedRangeList(start, end, key);
 }
 
 String _format(int number) {
@@ -194,5 +189,4 @@ String _format(int number) {
 
   return list.reversed.join();
 }
-
 ```

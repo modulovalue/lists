@@ -11,6 +11,8 @@ void main() {
   });
 }
 
+StepList list(int start, int end, [int step]) => new StepList(start, end, step);
+
 void testContains() {
   var result = list(0, -100, -3).contains(-3);
   expect(result, true, reason: "StepList.contains");
@@ -67,5 +69,3 @@ void testReversed() {
   var result = list(0, 6, 2).reversed;
   expect(result, [6, 4, 2, 0], reason: "StepList.reversed");
 }
-
-StepList list(int start, int end, [int step]) => new StepList(start, end, step);
