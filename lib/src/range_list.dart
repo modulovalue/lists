@@ -28,7 +28,7 @@ class RangeList extends Object with ListMixin<int> {
   int get length => _length;
 
   /// Sets the length of list.
-  void set length(int length) {
+  set length(int length) {
     throw new UnsupportedError("length=");
   }
 

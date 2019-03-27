@@ -38,7 +38,7 @@ class SparseList<E> extends Object with ListMixin<E> {
   /// Returns the 'end' value from the last group (if available); otherwise null.
   int get end {
     var length = _groups.length;
-    if (_groups.length == 0) {
+    if (_groups.isEmpty) {
       return null;
     }
 
@@ -61,7 +61,7 @@ class SparseList<E> extends Object with ListMixin<E> {
   int get length => _length;
 
   /// Sets the length of list.
-  void set length(int length) {
+  set length(int length) {
     if (length == null) {
       throw new ArgumentError("length: $length");
     }
@@ -100,7 +100,7 @@ class SparseList<E> extends Object with ListMixin<E> {
   /// Returns the 'start' value from the first group (if available); otherwise
   /// null.
   int get start {
-    if (_groups.length == 0) {
+    if (_groups.isEmpty) {
       return null;
     }
 
@@ -327,7 +327,7 @@ class SparseList<E> extends Object with ListMixin<E> {
     }
 
     _resetValues(range);
-    if (_groups.length == 0) {
+    if (_groups.isEmpty) {
       if (_length > range.start) {
         _length = range.start;
       }

@@ -31,7 +31,7 @@ class ListPointer<T> extends Object with ListMixin {
 
   int get length => base.length - _offset;
 
-  void set length(int length) {
+  set length(int length) {
     throw new UnsupportedError("set length");
   }
 
@@ -39,7 +39,7 @@ class ListPointer<T> extends Object with ListMixin {
   int get offset => _offset;
 
   /// Sets the offset.
-  void set offset(int offset) {
+  set offset(int offset) {
     if (offset == null) {
       throw new ArgumentError.notNull("offset");
     }
