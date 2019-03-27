@@ -1,17 +1,13 @@
 part of lists;
 
-/**
- * The [RangeList] with key.
- */
+/// The [RangeList] with key.
 class GroupedRangeList<TKey> extends RangeList {
   final TKey key;
 
   GroupedRangeList(int start, int end, this.key) : super(start, end);
 
-  /**
-   * Returns the intersection of this grouped range list and the [other] grouped
-   * range list; otherwise null.
-   */
+  /// Returns the intersection of this grouped range list and the [other] grouped
+  /// range list; otherwise null.
   GroupedRangeList<TKey> intersection(RangeList other) {
     if (other == null) {
       throw new ArgumentError("other: $other");
@@ -38,10 +34,8 @@ class GroupedRangeList<TKey> extends RangeList {
     return new GroupedRangeList<TKey>(start, end, key);
   }
 
-  /**
-   * Subtracts from this grouped range list the [other] grouped range list and
-   * returns the the resulting grouped ranges.
-   */
+  /// Subtracts from this grouped range list the [other] grouped range list and
+  /// returns the the resulting grouped ranges.
   List<GroupedRangeList<TKey>> subtract(RangeList other) {
     if (other == null) {
       throw new ArgumentError("other: $other");
@@ -63,9 +57,7 @@ class GroupedRangeList<TKey> extends RangeList {
     return result;
   }
 
-  /**
-   * Returns the string representation of grouped range list.
-   */
+  /// Returns the string representation of grouped range list.
   String toString() {
     return "[$start..$end]($key)";
   }

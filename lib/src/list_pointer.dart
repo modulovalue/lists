@@ -1,26 +1,22 @@
 part of lists;
 
-/**
- * List which are points to the other list at the specified index.
- *     var plist = new ListPointer(base, 20);
- *     print(plist[-1]); // base[19]
- *     print(plist[0]);  // base[20]
- */
+/// List which are points to the other list at the specified index.
+/// var plist = new ListPointer(base, 20);
+/// print(plist[-1]); // base[19]
+/// print(plist[0]);  // base[20]
 class ListPointer<T> extends Object with ListMixin {
   final List<T> base;
 
   int _offset = 0;
 
-  /**
-   * Creates the list pointer.
-   *
-   * Parameters:
-   *   [List] base
-   *   Base list to be pointed.
-   *
-   *   [int] offset
-   *   Offset in the base list.
-   */
+  /// Creates the list pointer.
+  ///
+  /// Parameters:
+  ///   [List] base
+  ///   Base list to be pointed.
+  ///
+  ///   [int] offset
+  ///   Offset in the base list.
   ListPointer(this.base, [int offset = 0]) {
     if (base == null) {
       throw new ArgumentError.notNull("base");
@@ -39,14 +35,10 @@ class ListPointer<T> extends Object with ListMixin {
     throw new UnsupportedError("set length");
   }
 
-  /**
-   * Gets the offset.
-   */
+  /// Gets the offset.
   int get offset => _offset;
 
-  /**
-   * Sets the offset.
-   */
+  /// Sets the offset.
   void set offset(int offset) {
     if (offset == null) {
       throw new ArgumentError.notNull("offset");

@@ -1,15 +1,11 @@
 part of lists;
 
-/**
- * Sparse bool list based on the grouped range lists.
- */
+/// Sparse bool list based on the grouped range lists.
 class SparseBoolList extends SparseList<bool> {
   SparseBoolList({int length}) : super(length: length, defaultValue: false);
 
-  /**
-   * Sets the values ​​in accordance with the specified [group] and increases
-   * (if required) the length up to (range.end + 1).
-   */
+  /// Sets the values ​​in accordance with the specified [group] and increases
+  /// (if required) the length up to (range.end + 1).
   void addGroup(GroupedRangeList<bool> group) {
     if (group == null) {
       throw new ArgumentError("group: $group");
@@ -22,9 +18,7 @@ class SparseBoolList extends SparseList<bool> {
     super.addGroup(group);
   }
 
-  /**
-   * Sets the values ​​in accordance with the specified [group].
-   */
+  /// Sets the values ​​in accordance with the specified [group].
   void setGroup(GroupedRangeList<bool> group) {
     if (group == null) {
       throw new ArgumentError("group: $group");

@@ -1,12 +1,12 @@
 part of lists;
 
-/**
- * Sparse list based on the grouped range lists.
- */
+/// Sparse list based on the grouped range lists.
 // TODO: sublist
 // TODO: toList
 class SparseList<E> extends Object with ListMixin<E> {
   final E defaultValue;
+
+  bool Function(E, E) _equals;
 
   bool _fixedLength = false;
 
@@ -16,7 +16,7 @@ class SparseList<E> extends Object with ListMixin<E> {
 
   int _length;
 
-  SparseList({this.defaultValue, int length}) {
+  SparseList({this.defaultValue, bool equals(E e1, E e2), int length}) {
     if (length == null) {
       length = 0;
     } else {
@@ -28,11 +28,14 @@ class SparseList<E> extends Object with ListMixin<E> {
     }
 
     _length = length;
+    if (equals != null) {
+      _equals = equals;
+    } else {
+      _equals = (E e1, E e2) => e1 == e2;
+    }
   }
 
-  /**
-   * Returns the 'end' value from the last group (if available); otherwise null.
-   */
+  /// Returns the 'end' value from the last group (if available); otherwise null.
   int get end {
     var length = _groups.length;
     if (_groups.length == 0) {
@@ -42,32 +45,22 @@ class SparseList<E> extends Object with ListMixin<E> {
     return _groups[length - 1].end;
   }
 
-  /**
-   * Returns true if the list is frozen; otherwise false.
-   */
+  /// Returns true if the list is frozen; otherwise false.
   bool get frozen {
     return _frozen;
   }
 
-  /**
-   * Returns the number of groups.
-   */
+  /// Returns the number of groups.
   int get groupCount => _groups.length;
 
-  /**
-   * Returns a read-only list of the groups.
-   */
+  /// Returns a read-only list of the groups.
   List<GroupedRangeList<E>> get groups =>
       new UnmodifiableListView<GroupedRangeList<E>>(_groups);
 
-  /**
-   * Returns the length of list.
-   */
+  /// Returns the length of list.
   int get length => _length;
 
-  /**
-   * Sets the length of list.
-   */
+  /// Sets the length of list.
   void set length(int length) {
     if (length == null) {
       throw new ArgumentError("length: $length");
@@ -104,10 +97,8 @@ class SparseList<E> extends Object with ListMixin<E> {
     _length = length;
   }
 
-  /**
-   * Returns the 'start' value from the first group (if available); otherwise
-   * null.
-   */
+  /// Returns the 'start' value from the first group (if available); otherwise
+  /// null.
   int get start {
     if (_groups.length == 0) {
       return null;
@@ -173,17 +164,15 @@ class SparseList<E> extends Object with ListMixin<E> {
       throw new RangeError(index);
     }
 
-    if (value == defaultValue) {
+    if (_equals(value, defaultValue)) {
       _resetValues(new RangeList(index, index));
     } else {
       setGroup(new GroupedRangeList(index, index, value));
     }
   }
 
-  /**
-   * Sets the values ​​in accordance with the specified [group] and increases
-   * (if required) the length up to (range.end + 1).
-   */
+  /// Sets the values ​​in accordance with the specified [group] and increases
+  /// (if required) the length up to (range.end + 1).
   void addGroup(GroupedRangeList<E> group) {
     if (group == null) {
       throw new ArgumentError("group: $group");
@@ -207,17 +196,13 @@ class SparseList<E> extends Object with ListMixin<E> {
     }
   }
 
-  /**
-   * Makes the list unmodifiable.
-   */
+  /// Makes the list unmodifiable.
   void freeze() {
     _frozen = true;
   }
 
-  /**
-   * Returns all groups that intersects with the specified [range] which being
-   * expanded (with default value) or shrunk to specified [range].
-   */
+  /// Returns all groups that intersects with the specified [range] which being
+  /// expanded (with default value) or shrunk to specified [range].
   List<GroupedRangeList<E>> getAlignedGroups(RangeList range) {
     if (range == null) {
       throw new ArgumentError("range: $range");
@@ -250,11 +235,9 @@ class SparseList<E> extends Object with ListMixin<E> {
     return groups;
   }
 
-  /**
-   * Returns all space as groups (including synthetic groups with default
-   * values from not filled space) that intersects with the specified [range]
-   * which being expanded (with default value) or shrunk to specified [range].
-   */
+  /// Returns all space as groups (including synthetic groups with default
+  /// values from not filled space) that intersects with the specified [range]
+  /// which being expanded (with default value) or shrunk to specified [range].
   List<GroupedRangeList<E>> getAllSpace(RangeList range) {
     if (range == null) {
       throw new ArgumentError("range: $range");
@@ -280,9 +263,7 @@ class SparseList<E> extends Object with ListMixin<E> {
     return groups;
   }
 
-  /**
-   * Returns all groups that intersects with the specified [range].
-   */
+  /// Returns all groups that intersects with the specified [range].
   Iterable<GroupedRangeList<E>> getGroups([RangeList range]) {
     if (range == null) {
       return _groups.getRange(0, _groups.length);
@@ -312,9 +293,7 @@ class SparseList<E> extends Object with ListMixin<E> {
     return _groups.getRange(firstIndex, lastIndex + 1);
   }
 
-  /**
-   * Returns the indexes of the elements with a value.
-   */
+  /// Returns the indexes of the elements with a value.
   Iterable<int> getIndexes() {
     Iterable<int> generator() sync* {
       for (var group in groups) {
@@ -328,10 +307,8 @@ class SparseList<E> extends Object with ListMixin<E> {
     return generator();
   }
 
-  /**
-   * Removes the values in the specified range and decreases (if possible) the
-   * length down to (range.start).
-   */
+  /// Removes the values in the specified range and decreases (if possible) the
+  /// length down to (range.start).
   void removeValues(RangeList range) {
     if (range == null) {
       throw new ArgumentError("range: $range");
@@ -364,9 +341,7 @@ class SparseList<E> extends Object with ListMixin<E> {
     }
   }
 
-  /**
-   * Resets the values in the specified [range] to the default values.
-   */
+  /// Resets the values in the specified [range] to the default values.
   void resetValues(RangeList range) {
     if (range == null) {
       throw new ArgumentError("range: $range");
@@ -387,9 +362,7 @@ class SparseList<E> extends Object with ListMixin<E> {
     _resetValues(range);
   }
 
-  /**
-   * Sets the values ​​in accordance with the specified [group].
-   */
+  /// Sets the values ​​in accordance with the specified [group].
   void setGroup(GroupedRangeList<E> group) {
     if (group == null) {
       throw new ArgumentError("group: $group");
@@ -410,10 +383,8 @@ class SparseList<E> extends Object with ListMixin<E> {
     _setGroup(group);
   }
 
-  /**
-   * Sets the length of list equal to the last not empty index + 1; otherwise
-   * sets the length to 0.
-   */
+  /// Sets the length of list equal to the last not empty index + 1; otherwise
+  /// sets the length to 0.
   void trim() {
     if (_fixedLength) {
       throw new StateError("Unable to trim a fixed list.");
@@ -530,7 +501,7 @@ class SparseList<E> extends Object with ListMixin<E> {
       var intersect = current.intersect(group);
       if (intersect) {
         if (start < groupStart) {
-          if (key == groupKey) {
+          if (_equals(key, groupKey)) {
             group = new GroupedRangeList<E>(start, groupEnd, groupKey);
           } else {
             var newGroup = new GroupedRangeList<E>(start, groupStart - 1, key);
@@ -539,7 +510,7 @@ class SparseList<E> extends Object with ListMixin<E> {
         }
 
         if (end > groupEnd) {
-          if (key == groupKey) {
+          if (_equals(key, groupKey)) {
             group = new GroupedRangeList<E>(groupStart, end, key);
           } else {
             var newGroup = new GroupedRangeList<E>(groupEnd + 1, end, key);
@@ -547,7 +518,7 @@ class SparseList<E> extends Object with ListMixin<E> {
           }
         }
       } else {
-        if (key == groupKey) {
+        if (_equals(key, groupKey)) {
           if (groupStart == end + 1) {
             group = new GroupedRangeList<E>(start, groupEnd, key);
           } else if (start == groupEnd + 1) {

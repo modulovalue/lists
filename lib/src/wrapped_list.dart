@@ -11,14 +11,10 @@ class WrappedList<E> extends Object with ListMixin<E> {
     _source = source;
   }
 
-  /**
-   * Returns the length of list.
-   */
+  /// Returns the length of list.
   int get length => _source.length;
 
-  /**
-   * Sets the length of list.
-   */
+  /// Sets the length of list.
   void set length(int length) {
     throw new UnsupportedError("length=");
   }
@@ -29,8 +25,6 @@ class WrappedList<E> extends Object with ListMixin<E> {
     throw new UnsupportedError("operator []=");
   }
 
-  /**
-   * Returns the string representation of range.
-   */
+  /// Returns the string representation of range.
   String toString() => _source.toString();
 }
