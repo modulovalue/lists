@@ -75,13 +75,12 @@ void sparseBoolList() {
   var elapsed = (sw.elapsedMilliseconds / 1000);
   print("SparseBoolList: ${_format(groupCount)} groups added in $elapsed sec.");
   //
-  var accessed = 0;
-  var elementCount = length / 10;
+  var accessed = 0;  
   //
   sw.reset();
   sw.start();
   for (var i = 0; i < length; i += 100) {
-    var x = list[i];
+    var x = list[i];    
     accessed++;
   }
 

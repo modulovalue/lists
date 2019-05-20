@@ -165,7 +165,7 @@ void testGetAlignedGroups() {
         }
 
         var indexes = sparse.getIndexes().toList();
-        if (indexes.length == 0) {
+        if (indexes.isEmpty) {
           // Sparse list is empty
           expect(group.key, FAILURE, reason: subject);
         } else {

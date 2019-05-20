@@ -78,8 +78,7 @@ void testIntersection() {
 
 void testIterable() {
   var result = rng(0, 5);
-  expect(result is Iterable<int>, true, reason: "RangeList is Iterable<int>");
-  var length = result.length;
+  expect(result is Iterable<int>, true, reason: "RangeList is Iterable<int>");  
   var i = result.start;
   for (var value in result) {
     expect(value, i++, reason: "RangeList.current");

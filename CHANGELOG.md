@@ -1,11 +1,15 @@
+## 0.1.3
+
+- Minor changes
+
 ## 0.1.2
 
-- Source code changed to be more pedantic. If you don’t know what a pedantic code means, you can ask Google employees about it. Google greatly downgrade the rating of the package if, from their point of view, the code is not pedantic.
+- Source code changed to be more pedantic
 
 ## 0.1.1
 
 - Added parameter `equals` to constructor `SparseList()` to specify comparison function of complex data structures
-- Source code changed to be more pedantic. If you don’t know what a pedantic code means, you can ask Google employees about it. Google greatly downgrade the rating of the package if, from their point of view, the code is not pedantic.
+- Source code changed to be more pedantic
 
 ## 0.1.0
 

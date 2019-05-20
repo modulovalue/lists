@@ -4,7 +4,7 @@ part of lists;
 /// var plist = new ListPointer(base, 20);
 /// print(plist[-1]); // base[19]
 /// print(plist[0]);  // base[20]
-class ListPointer<T> extends Object with ListMixin {
+class ListPointer<T> extends Object with ListMixin<T> {
   final List<T> base;
 
   int _offset = 0;
@@ -47,7 +47,7 @@ class ListPointer<T> extends Object with ListMixin {
     _offset = offset;
   }
 
-  ListPointer<T> operator +(other) {
+  ListPointer<T> operator +(dynamic other) {
     if (other is int) {
       return new ListPointer<T>(base, offset + other);
     }
@@ -146,7 +146,7 @@ class ListPointer<T> extends Object with ListMixin {
   }
 
   void operator []=(int index, value) {
-    base[_offset + index] = value as T;
+    base[_offset + index] = value;
   }
 
   ListPointer<T> increment(int n) {
