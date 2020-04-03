@@ -7,57 +7,61 @@ class BitList extends Object with ListMixin<bool> {
 
   BitList(int length, [bool fill]) {
     if (length == null || length < 0) {
-      throw new ArgumentError("length: $length");
+      throw ArgumentError('length: $length');
     }
 
     _length = length;
-    var slots = (length - 1) ~/ 30 + 1;
+    final slots = (length - 1) ~/ 30 + 1;
     if (fill == true) {
-      _list = new List<int>.filled(slots, 0x3fffffff);
+      _list = List<int>.filled(slots, 0x3fffffff);
     } else {
-      _list = new List<int>.filled(slots, 0);
+      _list = List<int>.filled(slots, 0);
     }
   }
 
   /// Returns the length of list.
+  @override
   int get length => _length;
 
   /// Sets the length of list.
+  @override
   set length(int length) {
-    throw new UnsupportedError("length=");
+    throw UnsupportedError('length=');
   }
 
+  @override
   bool operator [](int index) {
     if (index == null) {
-      throw new ArgumentError("index: $index");
+      throw ArgumentError('index: $index');
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError(index);
+      throw RangeError(index);
     }
 
-    var slot = index ~/ 30;
-    var position = slot * 30;
-    var mask = 1 << (index - position);
+    final slot = index ~/ 30;
+    final position = slot * 30;
+    final mask = 1 << (index - position);
     return (_list[slot] & mask) != 0;
   }
 
+  @override
   void operator []=(int index, bool value) {
     if (index == null) {
-      throw new ArgumentError("index: $index");
+      throw ArgumentError('index: $index');
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError(index);
+      throw RangeError(index);
     }
 
     if (value == null) {
-      throw new ArgumentError("value: $value");
+      throw ArgumentError('value: $value');
     }
 
-    var slot = index ~/ 30;
-    var position = slot * 30;
-    var mask = 1 << (index - position);
+    final slot = index ~/ 30;
+    final position = slot * 30;
+    final mask = 1 << (index - position);
     if (value) {
       _list[slot] |= mask;
     } else {

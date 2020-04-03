@@ -1,5 +1,5 @@
 name: lists
-version: 0.1.3
+version: 0.1.4
 author: Andrew Mezoni <andrew.mezoni@gmail.com>
 description: Collection of the lists (BitList, FilledList, GroupedRangeList, ListPointer, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 homepage: https://github.com/mezoni/lists
@@ -7,5 +7,5 @@ environment:
   sdk: '>=1.0.0 <3.0.0'
 dependencies:  
 dev_dependencies:
-  pedantic: any
+  pedantic: ^1.9.0
   test: any

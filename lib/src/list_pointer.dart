@@ -19,20 +19,22 @@ class ListPointer<T> extends Object with ListMixin<T> {
   ///   Offset in the base list.
   ListPointer(this.base, [int offset = 0]) {
     if (base == null) {
-      throw new ArgumentError.notNull("base");
+      throw ArgumentError.notNull('base');
     }
 
     if (offset == null) {
-      throw new ArgumentError.notNull("offset");
+      throw ArgumentError.notNull('offset');
     }
 
     _offset = offset;
   }
 
+  @override
   int get length => base.length - _offset;
 
+  @override
   set length(int length) {
-    throw new UnsupportedError("set length");
+    throw UnsupportedError('set length');
   }
 
   /// Gets the offset.
@@ -41,26 +43,28 @@ class ListPointer<T> extends Object with ListMixin<T> {
   /// Sets the offset.
   set offset(int offset) {
     if (offset == null) {
-      throw new ArgumentError.notNull("offset");
+      throw ArgumentError.notNull('offset');
     }
 
     _offset = offset;
   }
 
-  ListPointer<T> operator +(dynamic other) {
+  @override
+  ListPointer<T> operator +(other) {
     if (other is int) {
-      return new ListPointer<T>(base, offset + other);
+      final i = other as int;
+      return ListPointer<T>(base, offset + i);
     }
 
-    throw new ArgumentError.value(other, "other");
+    throw ArgumentError.value(other, 'other');
   }
 
   ListPointer<T> operator -(other) {
     if (other is int) {
-      return new ListPointer<T>(base, offset - other);
+      return ListPointer<T>(base, offset - other);
     }
 
-    throw new ArgumentError.value(other, "other");
+    throw ArgumentError.value(other, 'other');
   }
 
   bool operator <(other) {
@@ -91,6 +95,7 @@ class ListPointer<T> extends Object with ListMixin<T> {
     return false;
   }
 
+  @override
   bool operator ==(other) {
     if (other is ListPointer) {
       if (identical(base, other.base)) {
@@ -137,19 +142,21 @@ class ListPointer<T> extends Object with ListMixin<T> {
     return false;
   }
 
+  @override
   T operator [](int index) {
     if (index == null) {
-      throw new ArgumentError.notNull("index");
+      throw ArgumentError.notNull('index');
     }
 
     return base[_offset + index];
   }
 
+  @override
   void operator []=(int index, value) {
     base[_offset + index] = value;
   }
 
   ListPointer<T> increment(int n) {
-    return new ListPointer<T>(base, offset + n);
+    return ListPointer<T>(base, offset + n);
   }
 }

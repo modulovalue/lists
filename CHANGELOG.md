@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Source code changed to be more pedantic
+
 ## 0.1.3
 
 - Minor changes

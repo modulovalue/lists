@@ -1,5 +1,5 @@
-import "package:lists/lists.dart";
-import "package:test/test.dart";
+import 'package:lists/lists.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('', () {
@@ -8,31 +8,31 @@ void main() {
   });
 }
 
-WrappedList list(List source) => new WrappedList(source);
+WrappedList list(List source) => WrappedList(source);
 
 void testContent() {
-  var result = list([0, 1, 2, 3, 4, 5]);
-  expect(result, [0, 1, 2, 3, 4, 5], reason: "WrappedList");
+  final result = list([0, 1, 2, 3, 4, 5]);
+  expect(result, [0, 1, 2, 3, 4, 5], reason: 'WrappedList');
 }
 
 void testModify() {
   var result = false;
   try {
-    var l = list([0, 1, 2]);
+    final l = list([0, 1, 2]);
     l[0] = 0;
   } on UnsupportedError catch (e) {
     result = true;
   }
 
-  expect(result, true, reason: "WrappedList");
+  expect(result, true, reason: 'WrappedList');
 
   result = false;
   try {
-    var l = list([0, 1, 2]);
+    final l = list([0, 1, 2]);
     l.length = 0;
   } on UnsupportedError catch (e) {
     result = true;
   }
 
-  expect(result, true, reason: "WrappedList");
+  expect(result, true, reason: 'WrappedList');
 }

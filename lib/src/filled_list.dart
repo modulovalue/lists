@@ -7,7 +7,7 @@ class FilledList<E> extends Object with ListMixin<E> {
 
   FilledList(int length, E fill) {
     if (length == null || length < 0) {
-      throw new ArgumentError("length: $length");
+      throw ArgumentError('length: $length');
     }
 
     _fill = fill;
@@ -15,26 +15,30 @@ class FilledList<E> extends Object with ListMixin<E> {
   }
 
   /// Returns the length of list.
+  @override
   int get length => _length;
 
   /// Sets the length of list.
+  @override
   set length(int length) {
-    throw new UnsupportedError("length=");
+    throw UnsupportedError('length=');
   }
 
+  @override
   E operator [](int index) {
     if (index == null) {
-      throw new ArgumentError("index: $index");
+      throw ArgumentError('index: $index');
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError(index);
+      throw RangeError(index);
     }
 
     return _fill;
   }
 
+  @override
   void operator []=(int index, E value) {
-    throw new UnsupportedError("operator []=");
+    throw UnsupportedError('operator []=');
   }
 }

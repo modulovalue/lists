@@ -11,18 +11,18 @@ class StepList extends Object with ListMixin<int> {
 
   StepList(this.start, this.end, [int step]) {
     if (start == null) {
-      throw new ArgumentError("start: $start");
+      throw ArgumentError('start: $start');
     }
 
     if (end == null) {
-      throw new ArgumentError("end: $end");
+      throw ArgumentError('end: $end');
     }
 
     if (step == 0) {
-      throw new ArgumentError("step: $step");
+      throw ArgumentError('step: $step');
     }
 
-    var count = end - start;
+    final count = end - start;
     if (step == null) {
       if (count > 0) {
         _step = 1;
@@ -42,33 +42,38 @@ class StepList extends Object with ListMixin<int> {
   }
 
   /// Returns the length of list.
+  @override
   int get length => _length;
 
   /// Sets the length of list.
+  @override
   set length(int length) {
-    throw new UnsupportedError("length=");
+    throw UnsupportedError('length=');
   }
 
   /// Returns the step.
   int get step => _step;
 
+  @override
   int operator [](int index) {
     if (index == null) {
-      throw new ArgumentError("index: $index");
+      throw ArgumentError('index: $index');
     }
 
     if (index < 0 || index >= _length) {
-      throw new RangeError(index);
+      throw RangeError(index);
     }
 
     return start + step * index;
   }
 
+  @override
   void operator []=(int index, int value) {
-    throw new UnsupportedError("operator []=");
+    throw UnsupportedError('operator []=');
   }
 
   /// Returns true if list contains the [value]; otherwise false.
+  @override
   bool contains(value) {
     if (value == null || value is! int) {
       return false;
@@ -78,8 +83,8 @@ class StepList extends Object with ListMixin<int> {
       return value == start;
     }
 
-    var position = (value as int) - start;
-    var index = position ~/ step;
+    final position = (value as int) - start;
+    final index = position ~/ step;
     if (index >= 0 && index < _length) {
       if (position % index == 0) {
         return true;
@@ -90,11 +95,12 @@ class StepList extends Object with ListMixin<int> {
   }
 
   /// Returns the string representation of range.
+  @override
   String toString() {
     if (step > 0) {
-      return "[$start..$end; +$step]";
+      return '[$start..$end; +$step]';
     } else {
-      return "[$start..$end; $step]";
+      return '[$start..$end; $step]';
     }
   }
 }

@@ -8,9 +8,10 @@ class GroupedRangeList<TKey> extends RangeList {
 
   /// Returns the intersection of this grouped range list and the [other] grouped
   /// range list; otherwise null.
+  @override
   GroupedRangeList<TKey> intersection(RangeList other) {
     if (other == null) {
-      throw new ArgumentError("other: $other");
+      throw ArgumentError('other: $other');
     }
 
     if (!intersect(other)) {
@@ -18,7 +19,7 @@ class GroupedRangeList<TKey> extends RangeList {
     }
 
     if (this == other) {
-      return new GroupedRangeList<TKey>(this.start, this.end, key);
+      return GroupedRangeList<TKey>(this.start, this.end, key);
     }
 
     var start = this.start;
@@ -31,34 +32,36 @@ class GroupedRangeList<TKey> extends RangeList {
       end = other.end;
     }
 
-    return new GroupedRangeList<TKey>(start, end, key);
+    return GroupedRangeList<TKey>(start, end, key);
   }
 
   /// Subtracts from this grouped range list the [other] grouped range list and
   /// returns the the resulting grouped ranges.
+  @override
   List<GroupedRangeList<TKey>> subtract(RangeList other) {
     if (other == null) {
-      throw new ArgumentError("other: $other");
+      throw ArgumentError('other: $other');
     }
 
-    var result = <GroupedRangeList<TKey>>[];
+    final result = <GroupedRangeList<TKey>>[];
     if (!intersect(other)) {
       return result;
     }
 
     if (start < other.start) {
-      result.add(new GroupedRangeList<TKey>(start, other.start - 1, key));
+      result.add(GroupedRangeList<TKey>(start, other.start - 1, key));
     }
 
     if (other.end < end) {
-      result.add(new GroupedRangeList<TKey>(other.end + 1, end, key));
+      result.add(GroupedRangeList<TKey>(other.end + 1, end, key));
     }
 
     return result;
   }
 
   /// Returns the string representation of grouped range list.
+  @override
   String toString() {
-    return "[$start..$end]($key)";
+    return '[$start..$end]($key)';
   }
 }
