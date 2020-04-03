@@ -796,6 +796,30 @@ void testSetGroupTheSame() {
   expect(actual, [null, '1', '1', '1'], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
+  //
+  sparse = SparseList<String>(length: 2, defaultValue: '2');
+  sparse.setGroup(grp(0, 1, '1'));
+  sparse.setGroup(grp(0, 0, '2'));
+  actual = sparse;
+  expect(actual, ['2', '1'], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 1, reason: subject);
+  //
+  sparse = SparseList<String>(length: 3, defaultValue: '2');
+  sparse.setGroup(grp(0, 2, '1'));
+  sparse.setGroup(grp(1, 1, '2'));
+  actual = sparse;
+  expect(actual, ['1', '2', '1'], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 2, reason: subject);
+  //
+  sparse = SparseList<String>(length: 3, defaultValue: '2');
+  sparse.setGroup(grp(0, 2, '1'));
+  sparse.setGroup(grp(0, 2, '2'));
+  actual = sparse;
+  expect(actual, ['2', '2', '2'], reason: subject);
+  groupCount = sparse.groupCount;
+  expect(groupCount, 0, reason: subject);
 }
 
 void testSetTheSame() {

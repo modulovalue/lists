@@ -541,6 +541,7 @@ class SparseList<E> extends Object with ListMixin<E> {
     newGroups.add(group);
     newGroups.sort((a, b) => a.start.compareTo(b.start));
     _groups.removeRange(left, left + count);
-    _groups.insertAll(left, newGroups);
+    _groups.insertAll(
+        left, newGroups.where((e) => !_equals(e.key, defaultValue)));
   }
 }

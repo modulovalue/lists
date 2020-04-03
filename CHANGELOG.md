@@ -1,3 +1,7 @@
+## 0.1.5
+
+- Fixed bug in `SparseList.setGroup()` when the group key is equal to the list default value
+
 ## 0.1.4
 
 - Source code changed to be more pedantic
