@@ -1,3 +1,7 @@
+## 0.1.6
+
+- Added hash code support in `RangeList` implementation
+
 ## 0.1.5
 
 - Fixed bug in `SparseList.setGroup()` when the group key is equal to the list default value

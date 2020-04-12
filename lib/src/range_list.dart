@@ -4,21 +4,28 @@ part of lists;
 class RangeList extends Object with ListMixin<int> {
   final int end;
 
+  @override
+  final int hashCode;
+
   final int start;
 
   int _length;
 
-  RangeList(this.start, this.end) {
+  RangeList(int start, int end)
+      : hashCode = start.hashCode | end.hashCode,
+        start = start,
+        end = end {
     if (start == null) {
-      throw ArgumentError('start: $start');
+      throw ArgumentError.notNull('start');
     }
 
     if (end == null) {
-      throw ArgumentError('end: $end');
+      throw ArgumentError.notNull('end');
     }
 
     if (start > end) {
-      throw StateError("Start '$start' greater then end '$end'");
+      throw ArgumentError(
+          'The value of the argument \'start\' is greater than the value of the argument \'end\': $this');
     }
 
     _length = end - start + 1;
@@ -42,7 +49,6 @@ class RangeList extends Object with ListMixin<int> {
 
     int start;
     int end;
-
     final otherRange = other as RangeList;
     if (this.start < otherRange.start) {
       start = this.start;

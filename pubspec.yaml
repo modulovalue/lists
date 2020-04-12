@@ -1,5 +1,5 @@
 name: lists
-version: 0.1.5
+version: 0.1.6
 description: Collection of the lists (BitList, FilledList, GroupedRangeList, ListPointer, RangeList, SparseBoolList, SparseList, StepList, WrappedList).
 homepage: https://github.com/mezoni/lists
 environment:

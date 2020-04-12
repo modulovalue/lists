@@ -2,9 +2,10 @@ import 'package:lists/lists.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('', () {
+  test('RangeList', () {
     testAdd();
     testContains();
+    testHashCode();
     testIncludes();
     testIntersect();
     testIntersection();
@@ -35,6 +36,11 @@ void testContains() {
   expect(result, true, reason: 'RangeList.contains');
   result = rng(0, 5).contains(6);
   expect(result, false, reason: 'RangeList.contains');
+}
+
+void testHashCode() {
+  expect(rng(0, 0).hashCode, rng(0, 0).hashCode);
+  expect(rng(0, 1).hashCode, rng(0, 1).hashCode);
 }
 
 void testIncludes() {
