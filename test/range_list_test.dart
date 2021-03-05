@@ -92,7 +92,7 @@ void testIterable() {
 }
 
 void testReversed() {
-  final result = rng(-1, 1).reversed;
+  final Iterable<int> result = rng(-1, 1).reversed;
   expect(result, [1, 0, -1], reason: 'RangeList.reversed');
 }
 

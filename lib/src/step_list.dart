@@ -5,19 +5,11 @@ class StepList extends Object with ListMixin<int> {
 
   final int start;
 
-  int _length;
+  late final int _length;
 
-  int _step;
+  late final int _step;
 
-  StepList(this.start, this.end, [int step]) {
-    if (start == null) {
-      throw ArgumentError('start: $start');
-    }
-
-    if (end == null) {
-      throw ArgumentError('end: $end');
-    }
-
+  StepList(this.start, this.end, [int? step]) {
     if (step == 0) {
       throw ArgumentError('step: $step');
     }
@@ -33,11 +25,11 @@ class StepList extends Object with ListMixin<int> {
       _step = step;
     }
 
-    _length = count ~/ _step;
-    if (_length < 1) {
+    final tempLength = count ~/ _step;
+    if (tempLength < 1) {
       _length = 1;
     } else {
-      _length += 1;
+      _length = tempLength + 1;
     }
   }
 
@@ -46,6 +38,7 @@ class StepList extends Object with ListMixin<int> {
   int get length => _length;
 
   /// Sets the length of list.
+  @alwaysThrows
   @override
   set length(int length) {
     throw UnsupportedError('length=');
@@ -67,6 +60,7 @@ class StepList extends Object with ListMixin<int> {
     return start + step * index;
   }
 
+  @alwaysThrows
   @override
   void operator []=(int index, int value) {
     throw UnsupportedError('operator []=');
@@ -83,7 +77,7 @@ class StepList extends Object with ListMixin<int> {
       return value == start;
     }
 
-    final position = (value as int) - start;
+    final position = value - start;
     final index = position ~/ step;
     if (index >= 0 && index < _length) {
       if (position % index == 0) {

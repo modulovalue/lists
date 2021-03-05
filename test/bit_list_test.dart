@@ -7,7 +7,7 @@ void main() {
   });
 }
 
-BitList list(int length, [bool fill]) => BitList(length, fill);
+BitList list(int length, [bool fill = false]) => BitList(length, fill);
 
 void testContent() {
   var result = list(3);

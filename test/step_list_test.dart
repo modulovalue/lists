@@ -11,7 +11,7 @@ void main() {
   });
 }
 
-StepList list(int start, int end, [int step]) => StepList(start, end, step);
+StepList list(int start, int end, [int? step]) => StepList(start, end, step);
 
 void testContains() {
   var result = list(0, -100, -3).contains(-3);
@@ -66,6 +66,6 @@ void testList() {
 }
 
 void testReversed() {
-  final result = list(0, 6, 2).reversed;
+  final Iterable<int> result = list(0, 6, 2).reversed;
   expect(result, [6, 4, 2, 0], reason: 'StepList.reversed');
 }
