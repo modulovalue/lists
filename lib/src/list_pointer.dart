@@ -7,7 +7,7 @@ part of lists;
 class ListPointer<T> extends Object with ListMixin<T> {
   final List<T> base;
 
-  int _offset = 0;
+  int offset = 0;
 
   /// Creates the list pointer.
   ///
@@ -17,36 +17,15 @@ class ListPointer<T> extends Object with ListMixin<T> {
   ///
   ///   [int] offset
   ///   Offset in the base list.
-  ListPointer(this.base, [int offset = 0]) {
-    if (base == null) {
-      throw ArgumentError.notNull('base');
-    }
-
-    if (offset == null) {
-      throw ArgumentError.notNull('offset');
-    }
-
-    _offset = offset;
-  }
+  ListPointer(this.base, [this.offset = 0]);
 
   @override
-  int get length => base.length - _offset;
+  int get length => base.length - offset;
 
+  @alwaysThrows
   @override
   set length(int length) {
     throw UnsupportedError('set length');
-  }
-
-  /// Gets the offset.
-  int get offset => _offset;
-
-  /// Sets the offset.
-  set offset(int offset) {
-    if (offset == null) {
-      throw ArgumentError.notNull('offset');
-    }
-
-    _offset = offset;
   }
 
   @override
@@ -144,16 +123,12 @@ class ListPointer<T> extends Object with ListMixin<T> {
 
   @override
   T operator [](int index) {
-    if (index == null) {
-      throw ArgumentError.notNull('index');
-    }
-
-    return base[_offset + index];
+    return base[offset + index];
   }
 
   @override
   void operator []=(int index, value) {
-    base[_offset + index] = value;
+    base[offset + index] = value;
   }
 
   ListPointer<T> increment(int n) {

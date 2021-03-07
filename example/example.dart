@@ -41,7 +41,7 @@ void rangeList() {
   print("${list.join(", ")}");
 
   // The same values in reversed order
-  final reversed = list.reversed;
+  final Iterable<int> reversed = list.reversed;
   print("${reversed.join(", ")}");
 
   // The same list with step 2
@@ -55,7 +55,7 @@ void rangeList() {
 void sparseBoolList() {
   // Really big size
   final length = 2 * 1024 * 1024 * 1024;
-  final list = SparseBoolList(length: length);
+  final list = SparseBoolList.fixed(length);
   var groupCount = 0;
   var offset = 0;
   print('SparseBoolList: ${_format(length)} length.');

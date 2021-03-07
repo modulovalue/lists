@@ -1,5 +1,6 @@
 library lists;
 
+import 'package:meta/meta.dart';
 import 'dart:collection';
 
 part 'src/bit_list.dart';

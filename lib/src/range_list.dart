@@ -1,6 +1,7 @@
 part of lists;
 
 /// Range list.
+@immutable
 class RangeList extends Object with ListMixin<int> {
   final int end;
 
@@ -9,20 +10,13 @@ class RangeList extends Object with ListMixin<int> {
 
   final int start;
 
-  int _length;
+  late final int _length;
 
   RangeList(int start, int end)
       : hashCode = start.hashCode | end.hashCode,
         start = start,
-        end = end {
-    if (start == null) {
-      throw ArgumentError.notNull('start');
-    }
-
-    if (end == null) {
-      throw ArgumentError.notNull('end');
-    }
-
+        end = end
+  {
     if (start > end) {
       throw ArgumentError(
           'The value of the argument \'start\' is greater than the value of the argument \'end\': $this');
@@ -36,6 +30,7 @@ class RangeList extends Object with ListMixin<int> {
   int get length => _length;
 
   /// Sets the length of list.
+  @alwaysThrows
   @override
   set length(int length) {
     throw UnsupportedError('length=');
@@ -43,13 +38,13 @@ class RangeList extends Object with ListMixin<int> {
 
   @override
   RangeList operator +(List<int> other) {
-    if (other == null || other is! RangeList) {
+    if (other is! RangeList) {
       throw ArgumentError('other: $other');
     }
 
     int start;
     int end;
-    final otherRange = other as RangeList;
+    final otherRange = other;
     if (this.start < otherRange.start) {
       start = this.start;
     } else {
@@ -80,10 +75,6 @@ class RangeList extends Object with ListMixin<int> {
 
   @override
   int operator [](int index) {
-    if (index == null) {
-      throw ArgumentError('index: $index');
-    }
-
     if (index < 0 || index >= _length) {
       throw RangeError(index);
     }
@@ -91,6 +82,7 @@ class RangeList extends Object with ListMixin<int> {
     return start + index;
   }
 
+  @alwaysThrows
   @override
   void operator []=(int index, int value) {
     throw UnsupportedError('operator []=');
@@ -98,11 +90,11 @@ class RangeList extends Object with ListMixin<int> {
 
   /// Returns true if range list contains the [value]; otherwise false.
   @override
-  bool contains(value) {
+  bool contains(Object? value) {
     if (value == null ||
         value is! int ||
-        (value as int) > end ||
-        (value as int) < start) {
+        value > end ||
+        value < start) {
       return false;
     }
 
@@ -111,31 +103,19 @@ class RangeList extends Object with ListMixin<int> {
 
   /// Returns true if this range list includes [other]; otherwise false.
   bool includes(RangeList other) {
-    if (other == null) {
-      throw ArgumentError('other: $other');
-    }
-
     return (other.start >= start && other.start <= end) &&
         (other.end >= start && other.end <= end);
   }
 
   /// Returns true if this range list intersect [other]; otherwise false.
   bool intersect(RangeList other) {
-    if (other == null) {
-      throw ArgumentError('other: $other');
-    }
-
     return (start <= other.start && end >= other.start) ||
         (other.start <= start && other.end >= start);
   }
 
   /// Returns the intersection of this range list and the [other] range list;
   /// otherwise null.
-  RangeList intersection(RangeList other) {
-    if (other == null) {
-      throw ArgumentError('other: $other');
-    }
-
+  RangeList? intersection(RangeList other) {
     if (!intersect(other)) {
       return null;
     }
@@ -160,10 +140,6 @@ class RangeList extends Object with ListMixin<int> {
   /// Subtracts from this range the [other] range and returns the the resulting
   /// ranges.
   List<RangeList> subtract(RangeList other) {
-    if (other == null) {
-      throw ArgumentError('other: $other');
-    }
-
     final result = <RangeList>[];
     if (!intersect(other)) {
       return result;

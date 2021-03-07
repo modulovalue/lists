@@ -28,18 +28,18 @@ const int SUCCESS = 41;
 
 List<int> flatten1(SparseList list) {
   final groups = list.getGroups(RangeList(0, list.length));
-  return groups.fold(<int>[], (List<int> p, GroupedRangeList c) {
-    p.add(c.start);
+  return groups.fold(<int>[], (List<int> p, GroupedRangeList? c) {
+    p.add(c!.start);
     p.add(c.end);
     return p;
   });
 }
 
-List<int> flatten2(SparseList<int> list) {
+List<int?> flatten2(SparseList<int> list) {
   final groups = list.getGroups(RangeList(0, list.length));
-  return groups.fold<List<int>>(<int>[],
-      (List<int> p, GroupedRangeList<int> c) {
-    p.add(c.start);
+  return groups.fold<List<int?>>(<int?>[],
+      (List<int?> p, GroupedRangeList<int?>? c) {
+    p.add(c!.start);
     p.add(c.end);
     p.add(c.key);
     return p;
@@ -477,7 +477,7 @@ void testResetValues() {
   final subject = 'SparseList.resetValues()';
   final depth = 5;
   void action(List<bool> first, List<bool> second) {
-    final sparse = SparseList<int>(length: depth);
+    final sparse = SparseList<int>.fixed(depth);
     // Set values
     for (var i = 0; i < depth; i++) {
       if (first[i]) {
@@ -509,7 +509,7 @@ void testSetDifferent() {
    * -
    * -
    */
-  var sparse = SparseList<String>(length: 1);
+  var sparse = SparseList<String>.fixed(1);
   sparse[0] = '1';
   sparse[0] = '2';
   var actual = sparse;
@@ -520,7 +520,7 @@ void testSetDifferent() {
    * --
    * -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse[0] = '1';
   sparse[1] = '1';
   sparse[0] = '2';
@@ -532,7 +532,7 @@ void testSetDifferent() {
    * -
    * --
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse[0] = '1';
   sparse[0] = '2';
   sparse[1] = '2';
@@ -544,7 +544,7 @@ void testSetDifferent() {
    * -
    *  -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse[0] = '1';
   sparse[1] = '2';
   actual = sparse;
@@ -555,7 +555,7 @@ void testSetDifferent() {
    * --
    *  -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse[0] = '1';
   sparse[1] = '1';
   sparse[1] = '2';
@@ -567,7 +567,7 @@ void testSetDifferent() {
    * ---
    *  -
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse[0] = '1';
   sparse[1] = '1';
   sparse[2] = '1';
@@ -580,7 +580,7 @@ void testSetDifferent() {
    * ---
    *  --
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse[0] = '1';
   sparse[1] = '1';
   sparse[2] = '1';
@@ -594,7 +594,7 @@ void testSetDifferent() {
    * ---
    *  ---
    */
-  sparse = SparseList<String>(length: 4);
+  sparse = SparseList<String>.fixed(4);
   sparse[0] = '1';
   sparse[1] = '1';
   sparse[2] = '1';
@@ -609,7 +609,7 @@ void testSetDifferent() {
    * - - -
    *  ---
    */
-  sparse = SparseList<String>(length: 5);
+  sparse = SparseList<String>.fixed(5);
   sparse[0] = '1';
   sparse[2] = '1';
   sparse[4] = '1';
@@ -628,7 +628,7 @@ void testsetGroupDifferent() {
    * -
    * -
    */
-  var sparse = SparseList<String>(length: 1);
+  var sparse = SparseList<String>.fixed(1);
   sparse.setGroup(grp(0, 0, '1'));
   sparse.setGroup(grp(0, 0, '2'));
   var actual = sparse;
@@ -639,7 +639,7 @@ void testsetGroupDifferent() {
    * --
    * -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse.setGroup(grp(0, 1, '1'));
   sparse.setGroup(grp(0, 0, '2'));
   actual = sparse;
@@ -650,7 +650,7 @@ void testsetGroupDifferent() {
    * -
    * --
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse.setGroup(grp(0, 0, '1'));
   sparse.setGroup(grp(0, 1, '2'));
   actual = sparse;
@@ -661,7 +661,7 @@ void testsetGroupDifferent() {
    * -
    *  -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse.setGroup(grp(0, 0, '1'));
   sparse.setGroup(grp(1, 1, '2'));
   actual = sparse;
@@ -672,7 +672,7 @@ void testsetGroupDifferent() {
    * --
    *  -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse.setGroup(grp(0, 1, '1'));
   sparse.setGroup(grp(1, 1, '2'));
   actual = sparse;
@@ -683,7 +683,7 @@ void testsetGroupDifferent() {
    * ---
    *  -
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse.setGroup(grp(0, 2, '1'));
   sparse.setGroup(grp(1, 1, '2'));
   actual = sparse;
@@ -694,7 +694,7 @@ void testsetGroupDifferent() {
    * ---
    *  --
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse.setGroup(grp(0, 2, '1'));
   sparse.setGroup(grp(1, 2, '2'));
   actual = sparse;
@@ -705,7 +705,7 @@ void testsetGroupDifferent() {
    * ---
    *  ---
    */
-  sparse = SparseList<String>(length: 4);
+  sparse = SparseList<String>.fixed(4);
   sparse.setGroup(grp(0, 2, '1'));
   sparse.setGroup(grp(1, 3, '2'));
   actual = sparse;
@@ -716,7 +716,7 @@ void testsetGroupDifferent() {
    * - - -
    *  ---
    */
-  sparse = SparseList<String>(length: 5);
+  sparse = SparseList<String>.fixed(5);
   sparse.setGroup(grp(0, 4, '1'));
   sparse.setGroup(grp(1, 3, '2'));
   actual = sparse;
@@ -731,7 +731,7 @@ void testSetGroupTheSame() {
    * -
    * -
    */
-  var sparse = SparseList<String>(length: 1);
+  var sparse = SparseList<String>.fixed(1);
   sparse.setGroup(grp(0, 0, '1'));
   var actual = sparse;
   expect(actual, ['1'], reason: subject);
@@ -741,7 +741,7 @@ void testSetGroupTheSame() {
    * -
    *
    */
-  sparse = SparseList<String>(length: 1);
+  sparse = SparseList<String>.fixed(1);
   actual = sparse;
   expect(actual, [null], reason: subject);
   groupCount = sparse.groupCount;
@@ -750,7 +750,7 @@ void testSetGroupTheSame() {
    * --
    * -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse.setGroup(grp(0, 0, '1'));
   actual = sparse;
   expect(actual, ['1', null], reason: subject);
@@ -760,7 +760,7 @@ void testSetGroupTheSame() {
    * --
    *  -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse.setGroup(grp(1, 1, '1'));
   actual = sparse;
   expect(actual, [null, '1'], reason: subject);
@@ -770,7 +770,7 @@ void testSetGroupTheSame() {
    * ---
    *  -
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse.setGroup(grp(1, 1, '1'));
   actual = sparse;
   expect(actual, [null, '1', null], reason: subject);
@@ -780,7 +780,7 @@ void testSetGroupTheSame() {
    * ---
    *  --
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse.setGroup(grp(1, 2, '1'));
   actual = sparse;
   expect(actual, [null, '1', '1'], reason: subject);
@@ -790,14 +790,14 @@ void testSetGroupTheSame() {
    * ---
    *  ---
    */
-  sparse = SparseList<String>(length: 4);
+  sparse = SparseList<String>.fixed(4);
   sparse.setGroup(grp(1, 3, '1'));
   actual = sparse;
   expect(actual, [null, '1', '1', '1'], reason: subject);
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
   //
-  sparse = SparseList<String>(length: 2, defaultValue: '2');
+  sparse = SparseList<String>.fixed(2, defaultValue: '2');
   sparse.setGroup(grp(0, 1, '1'));
   sparse.setGroup(grp(0, 0, '2'));
   actual = sparse;
@@ -805,7 +805,7 @@ void testSetGroupTheSame() {
   groupCount = sparse.groupCount;
   expect(groupCount, 1, reason: subject);
   //
-  sparse = SparseList<String>(length: 3, defaultValue: '2');
+  sparse = SparseList<String>.fixed(3, defaultValue: '2');
   sparse.setGroup(grp(0, 2, '1'));
   sparse.setGroup(grp(1, 1, '2'));
   actual = sparse;
@@ -813,7 +813,7 @@ void testSetGroupTheSame() {
   groupCount = sparse.groupCount;
   expect(groupCount, 2, reason: subject);
   //
-  sparse = SparseList<String>(length: 3, defaultValue: '2');
+  sparse = SparseList<String>.fixed(3, defaultValue: '2');
   sparse.setGroup(grp(0, 2, '1'));
   sparse.setGroup(grp(0, 2, '2'));
   actual = sparse;
@@ -828,7 +828,7 @@ void testSetTheSame() {
    * -
    * -
    */
-  var sparse = SparseList<String>(length: 1);
+  var sparse = SparseList<String>.fixed(1);
   sparse[0] = '1';
   var actual = sparse;
   expect(actual, ['1'], reason: subject);
@@ -838,7 +838,7 @@ void testSetTheSame() {
    * --
    * -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse[0] = '1';
   actual = sparse;
   expect(actual, ['1', null], reason: subject);
@@ -848,7 +848,7 @@ void testSetTheSame() {
    * --
    *  -
    */
-  sparse = SparseList<String>(length: 2);
+  sparse = SparseList<String>.fixed(2);
   sparse[1] = '1';
   actual = sparse;
   expect(actual, [null, '1'], reason: subject);
@@ -858,7 +858,7 @@ void testSetTheSame() {
    * ---
    *  -
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse[1] = '1';
   actual = sparse;
   expect(actual, [null, '1', null], reason: subject);
@@ -868,7 +868,7 @@ void testSetTheSame() {
    * ---
    *  --
    */
-  sparse = SparseList<String>(length: 3);
+  sparse = SparseList<String>.fixed(3);
   sparse[1] = '1';
   sparse[2] = '1';
   actual = sparse;
@@ -879,7 +879,7 @@ void testSetTheSame() {
    * ---
    *  ---
    */
-  sparse = SparseList<String>(length: 4);
+  sparse = SparseList<String>.fixed(4);
   sparse[1] = '1';
   sparse[2] = '1';
   sparse[3] = '1';
@@ -893,7 +893,7 @@ void testSetWithStep() {
   final count = 10000;
   final maxStep = count;
   for (var step = 1; step < maxStep; step++) {
-    final sparseList = SparseList(length: count);
+    final sparseList = SparseList.fixed(count);
     final stepList = StepList(0, count - 1, step);
     for (var i in stepList) {
       sparseList[i] = true;
@@ -956,7 +956,7 @@ void testTrim() {
 List<RangeList> _patternToRanges(List<bool> pattern) {
   final ranges = <RangeList>[];
   final length = pattern.length;
-  int start;
+  int? start;
   for (var i = 0; i < length; i++) {
     if (!pattern[i]) {
       if (start != null) {

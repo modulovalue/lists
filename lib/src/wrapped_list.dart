@@ -1,21 +1,16 @@
 part of lists;
 
 class WrappedList<E> extends Object with ListMixin<E> {
-  List<E> _source;
+  final List<E> _source;
 
-  WrappedList(List<E> source) {
-    if (source == null) {
-      throw ArgumentError('source: $source');
-    }
-
-    _source = source;
-  }
+  WrappedList(this._source);
 
   /// Returns the length of list.
   @override
   int get length => _source.length;
 
   /// Sets the length of list.
+  @alwaysThrows
   @override
   set length(int length) {
     throw UnsupportedError('length=');
@@ -24,6 +19,7 @@ class WrappedList<E> extends Object with ListMixin<E> {
   @override
   E operator [](int index) => _source[index];
 
+  @alwaysThrows
   @override
   void operator []=(int index, E value) {
     throw UnsupportedError('operator []=');

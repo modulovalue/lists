@@ -1,17 +1,19 @@
 part of lists;
 
 class BitList extends Object with ListMixin<bool> {
-  int _length;
+  /// Length of list.
+  @override
+  final int length;
 
-  List<int> _list;
+  late final List<int> _list;
 
-  BitList(int length, [bool fill]) {
-    if (length == null || length < 0) {
-      throw ArgumentError('length: $length');
+  BitList(this.length, [bool fill = false]) {
+    if (length < 0) {
+      throw ArgumentError('length should not be negative: $length');
     }
 
-    _length = length;
     final slots = (length - 1) ~/ 30 + 1;
+
     if (fill == true) {
       _list = List<int>.filled(slots, 0x3fffffff);
     } else {
@@ -19,11 +21,8 @@ class BitList extends Object with ListMixin<bool> {
     }
   }
 
-  /// Returns the length of list.
-  @override
-  int get length => _length;
-
   /// Sets the length of list.
+  @alwaysThrows
   @override
   set length(int length) {
     throw UnsupportedError('length=');
@@ -31,11 +30,7 @@ class BitList extends Object with ListMixin<bool> {
 
   @override
   bool operator [](int index) {
-    if (index == null) {
-      throw ArgumentError('index: $index');
-    }
-
-    if (index < 0 || index >= _length) {
+    if (index < 0 || index >= length) {
       throw RangeError(index);
     }
 
@@ -47,21 +42,14 @@ class BitList extends Object with ListMixin<bool> {
 
   @override
   void operator []=(int index, bool value) {
-    if (index == null) {
-      throw ArgumentError('index: $index');
-    }
-
-    if (index < 0 || index >= _length) {
+    if (index < 0 || index >= length) {
       throw RangeError(index);
-    }
-
-    if (value == null) {
-      throw ArgumentError('value: $value');
     }
 
     final slot = index ~/ 30;
     final position = slot * 30;
     final mask = 1 << (index - position);
+
     if (value) {
       _list[slot] |= mask;
     } else {

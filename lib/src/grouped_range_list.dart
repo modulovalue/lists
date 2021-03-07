@@ -1,6 +1,7 @@
 part of lists;
 
 /// The [RangeList] with key.
+@immutable
 class GroupedRangeList<TKey> extends RangeList {
   final TKey key;
 
@@ -9,11 +10,7 @@ class GroupedRangeList<TKey> extends RangeList {
   /// Returns the intersection of this grouped range list and the [other] grouped
   /// range list; otherwise null.
   @override
-  GroupedRangeList<TKey> intersection(RangeList other) {
-    if (other == null) {
-      throw ArgumentError('other: $other');
-    }
-
+  GroupedRangeList<TKey>? intersection(RangeList other) {
     if (!intersect(other)) {
       return null;
     }
@@ -39,10 +36,6 @@ class GroupedRangeList<TKey> extends RangeList {
   /// returns the the resulting grouped ranges.
   @override
   List<GroupedRangeList<TKey>> subtract(RangeList other) {
-    if (other == null) {
-      throw ArgumentError('other: $other');
-    }
-
     final result = <GroupedRangeList<TKey>>[];
     if (!intersect(other)) {
       return result;
