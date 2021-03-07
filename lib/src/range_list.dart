@@ -15,8 +15,7 @@ class RangeList extends Object with ListMixin<int> {
   RangeList(int start, int end)
       : hashCode = start.hashCode | end.hashCode,
         start = start,
-        end = end
-  {
+        end = end {
     if (start > end) {
       throw ArgumentError(
           'The value of the argument \'start\' is greater than the value of the argument \'end\': $this');
@@ -91,10 +90,7 @@ class RangeList extends Object with ListMixin<int> {
   /// Returns true if range list contains the [value]; otherwise false.
   @override
   bool contains(Object? value) {
-    if (value == null ||
-        value is! int ||
-        value > end ||
-        value < start) {
+    if (value == null || value is! int || value > end || value < start) {
       return false;
     }
 

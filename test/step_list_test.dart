@@ -66,6 +66,6 @@ void testList() {
 }
 
 void testReversed() {
-  final Iterable<int> result = list(0, 6, 2).reversed;
+  final result = list(0, 6, 2).reversed;
   expect(result, [6, 4, 2, 0], reason: 'StepList.reversed');
 }

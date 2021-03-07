@@ -2,9 +2,7 @@ import 'package:lists/lists.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('', () {
-    testContent();
-  });
+  test('', testContent);
 }
 
 FilledList list(int length, fill) => FilledList(length, fill);

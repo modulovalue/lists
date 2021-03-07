@@ -41,7 +41,7 @@ void rangeList() {
   print("${list.join(", ")}");
 
   // The same values in reversed order
-  final Iterable<int> reversed = list.reversed;
+  final reversed = list.reversed;
   print("${reversed.join(", ")}");
 
   // The same list with step 2
@@ -80,6 +80,7 @@ void sparseBoolList() {
   sw.reset();
   sw.start();
   for (var i = 0; i < length; i += 100) {
+    // ignore: unused_local_variable
     final x = list[i];
     accessed++;
   }
@@ -113,6 +114,7 @@ void sparseList() {
   sw.start();
   final length = list.length;
   for (var i = 0; i < length; i++) {
+    // ignore: unused_local_variable
     final x = list[i];
   }
 

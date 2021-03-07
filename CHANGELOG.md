@@ -1,3 +1,7 @@
+## 1.0.0
+
+- The source code has been migrated to null safety. Thanks to the author of this work, Dmitry (https://github.com/kelegorm).
+
 ## 0.1.6
 
 - Added hash code support in `RangeList` implementation

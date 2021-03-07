@@ -30,7 +30,8 @@ class SparseList<E extends Object> extends Object with ListMixin<E?> {
     }
   }
 
-  SparseList.fixed(this._length, {
+  SparseList.fixed(
+    this._length, {
     this.defaultValue,
     bool Function(E? e1, E? e2)? equals,
   }) {
@@ -165,7 +166,8 @@ class SparseList<E extends Object> extends Object with ListMixin<E?> {
     }
 
     if (value == null && defaultValue != null) {
-      ArgumentError("Collection can\'t contains null because default value is not null.");
+      ArgumentError(
+          "Collection can\'t contains null because default value is not null.");
     }
 
     if (_equals(value, defaultValue)) {
@@ -205,12 +207,12 @@ class SparseList<E extends Object> extends Object with ListMixin<E?> {
   /// Returns all groups that intersects with the specified [range] which being
   /// expanded (with default value) or shrunk to specified [range].
   List<GroupedRangeList<E?>> getAlignedGroups(RangeList range) {
-    final intersecGroups = getGroups(range).cast<GroupedRangeList<E?>>().toList();
+    final intersecGroups =
+        getGroups(range).cast<GroupedRangeList<E?>>().toList();
 
     if (intersecGroups.isEmpty) {
       return [GroupedRangeList<E?>(range.start, range.end, defaultValue)];
     }
-
 
     final first = intersecGroups.first;
 
@@ -218,16 +220,15 @@ class SparseList<E extends Object> extends Object with ListMixin<E?> {
       intersecGroups[0] = first.intersection(range)!;
     } else if (range.start < first.start) {
       final insertion =
-        GroupedRangeList<E?>(range.start, first.start - 1, defaultValue);
+          GroupedRangeList<E?>(range.start, first.start - 1, defaultValue);
       intersecGroups.insert(0, insertion);
     }
-
 
     final last = intersecGroups.last;
 
     if (range.end > last.end) {
       final addition =
-      GroupedRangeList<E?>(last.end + 1, range.end, defaultValue);
+          GroupedRangeList<E?>(last.end + 1, range.end, defaultValue);
       intersecGroups.add(addition);
     } else if (range.end < last.end) {
       intersecGroups[intersecGroups.length - 1] = last.intersection(range)!;
@@ -249,7 +250,8 @@ class SparseList<E extends Object> extends Object with ListMixin<E?> {
         final delta = group.start - start;
         if (delta > 0) {
           // Adds the synthetic group
-          groups.add(GroupedRangeList<E?>(start, group.start - 1, defaultValue));
+          groups
+              .add(GroupedRangeList<E?>(start, group.start - 1, defaultValue));
         }
       }
 

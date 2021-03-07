@@ -2,9 +2,7 @@ import 'package:lists/lists.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('bit list', () {
-    testContent();
-  });
+  test('bit list', testContent);
 }
 
 BitList list(int length, [bool fill = false]) => BitList(length, fill);

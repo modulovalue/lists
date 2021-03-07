@@ -49,10 +49,6 @@ class StepList extends Object with ListMixin<int> {
 
   @override
   int operator [](int index) {
-    if (index == null) {
-      throw ArgumentError('index: $index');
-    }
-
     if (index < 0 || index >= _length) {
       throw RangeError(index);
     }

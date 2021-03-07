@@ -20,7 +20,7 @@ void testModify() {
   try {
     final l = list([0, 1, 2]);
     l[0] = 0;
-  } on UnsupportedError catch (e) {
+  } on UnsupportedError {
     result = true;
   }
 
@@ -30,7 +30,7 @@ void testModify() {
   try {
     final l = list([0, 1, 2]);
     l.length = 0;
-  } on UnsupportedError catch (e) {
+  } on UnsupportedError {
     result = true;
   }
 
